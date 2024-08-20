@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Title</title>
+  {% load static %}
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <!-- <link rel="stylesheet" href="static/CSS/style.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Pacifico&family=Poppins:wght@300&display=swap">
+  <!-- <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}"> -->
+    <style>
+        body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        }
+
+        .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        }
+
+        .navbar {
+        background-color: green;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 30px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        }
+
+        .logo h4 {
+        font-size: 25px;
+        font-family: 'Pacifico', cursive;
+        }
+
+        .nav-links {
+        display: flex;
+        }
+
+        .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 25px;
+        position: relative;
+        transition: border-bottom 0.5s;
+        }
+
+        .nav-links a:hover {
+        border-bottom: 1px solid #fff;
+        }
+
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: green;
+        min-width: 160px;
+        z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+        display: block;
+        padding: 15px 20px;
+
+        }
+
+        .signup-button button {
+        background-color: green;
+        color: #fff;
+        border: 1px solid #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        }
+
+        .signup-button button:hover {
+        background-color: #fff;
+        color: green;
+        transition: 0.5s ease;
+        }
+
+        .hero {
+        background: url(../static/image/cover1.jpg) no-repeat;
+        background-size: cover;
+        background-position: center;
+        color: green;
+        padding: 100px 0;
+        text-align: left;
+        height: 700px;
+        }
+
+        .hero h1 {
+        font-size: 80px;
+        font-weight: bolder;
+        margin-bottom: 20px;
+        margin-top: 50px;
+        color: #fff;
+        }
+
+        .hero p {
+        font-size: 20px;
+        margin-bottom: 40px;
+        }
+
+        .cta-button {
+        background: transparent;
+        color: green;
+        padding: 15px 30px;
+        border: 2px solid green;
+        font-size: 18px;
+        text-decoration: none;
+        border-radius: 5px;
+        }
+
+        .cta-button:hover {
+        background: #007bff;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.5s ease;
+        }
+
+        .cmpgn-button {
+        margin-left: 10px;
+        background: green;
+        color: #fff;
+        padding: 15px 30px;
+        font-size: 18px;
+        text-decoration: none;
+        border-radius: 5px;
+        }
+
+        .cmpgn-button:hover {
+        background: white;
+        color: green;
+        text-decoration: none;
+        transition: 0.5s ease;
+        }
+
+        .about {
+        background: #f0f0f0;
+        padding: 80px 0;
+        text-align: left;
+        height: fit-content;
+        }
+
+        .about h2 {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        }
+
+        .about p {
+        font-size: 18px;
+        margin-bottom: 40px;
+        }
+
+        .aboutimg {
+        height: 500px;
+        width: 800px;
+        margin: 0 auto;
+        }
+
+        .fam {
+        max-width: 100%;
+        max-height: 100%;
+        }
+
+        .featured-campaigns {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        padding: 50px 20px;
+        }
+
+        .featured-campaigns h2 {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        }
+
+        .featured-campaigns p {
+        font-size: 18px;
+        margin-bottom: 40px;
+
+        }
+
+        .campaign-card {
+        background-color: #ffffff;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 0 auto;
+        margin-top: 35px;
+        max-width: 300px;
+        width: 100%;
+        }
+
+        .campaign-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        }
+
+        .campaign-card h3 {
+        font-size: 24px;
+        color: green;
+        margin: 20px 0 10px 0;
+        text-align: center;
+        }
+
+        .campaign-card p {
+        font-size: 16px;
+        color: #333;
+        padding: 0 20px;
+        text-align: center;
+        }
+
+        .donate-button {
+        background-color: green;
+        color: #fff;
+        display: block;
+        text-align: center;
+        padding: 10px 0;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        }
+
+        .donate-button:hover {
+        background-color: green;
+        color: #fff;
+        text-decoration: none;
+        }
+
+        .newsletter-section {
+        background-color: #f0f0f0;
+        color: #fff;
+        text-align: center;
+        padding: 50px 20px;
+        }
+
+        .newsletter-form input[type="email"] {
+        width: 250px;
+        padding: 10px;
+        margin: 10px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        font-size: 16px;
+        }
+
+        .subscribe-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+
+        .subscribe-button:hover {
+        background-color: #0056b3;
+        transition: 0.5s ease;
+        color: #fff;
+        }
+
+        .social-media {
+        text-align: center;
+        margin-top: 20px;
+        }
+
+        .social-media p {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px;
+        }
+
+        .social-icons .icon {
+        margin: 0 15px;
+        }
+
+        .social-icons .icon i {
+        font-size: 36px;
+        /* Adjust the font size of the social media icons */
+        color: #fff;
+        /* Color of the social media icons */
+        transition: color 0.3s;
+        }
+
+        .social-icons .icon i:hover {
+        color: #fff;
+        /* Color change on hover */
+        }
+
+        .footer {
+        background: green;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+        }
+
+        .cinfo {
+        font-size: 18px;
+        }
+
+        .formcont {
+        max-width: 100%;
+        /* Updated for responsiveness */
+        margin: 0 auto;
+        }
+
+        .contactpage {
+        background: #f0f0f0;
+        padding: 80px 0;
+        text-align: left;
+        height: fit-content;
+        }
+
+        .contactpage h2 {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        }
+
+        .contactpage p {
+        font-size: 18px;
+        margin-bottom: 40px;
+        }
+
+        .card {
+        margin-top: 20px;
+        background-color: #f0f0f0;
+        border: 0;
+        padding: 20px;
+        }
+
+        .card-about {
+        background-color: #fff;
+        }
+
+        .form-control {
+        display: block;
+        width: 450px;
+        height: calc(1.5em + 1.7rem + 2px);
+        padding: 0.375rem 1rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color .15s;
+        }
+
+        .btn-primary {
+        margin-top: 30px;
+        color: #fff;
+        background: #03c04a;
+        border-color: #03c04a;
+        padding: 15px 30px;
+        font-size: 18px;
+        }
+
+        .btn-primary:hover {
+        background: #057d33;
+        border-color: #057d33;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="navbar">
+            <div class="logo">
+                <h4>Green City&nbsp;&reg;</h4>
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact Us</a>
+                <a href="#">Gallery</a>
+                <a href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</a>
+            </div>
+            <div class="signup-button">
+                <a href="{% url 'log' %}"><button>Login</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero">
+        <div class="container">
+            <h1>Waste and Recycling<br>
+                <span style="color: green;">Solutions</span><br>
+                For Your Home,Business,or city.
+            </h1>
+            <br>
+            <a href="#services" class="cmpgn-button">Our Services</a>
+        </div>
+    </div>
+
+    <div class="about" id="about">
+        <div class="container">
+            <h2>About Us&nbsp;<i class="fa-solid fa-angles-right"></i></h2>
+            <p>"We're committed to sustainable waste management, offering tailored solutions. Our focus on eco-friendly
+                practices and innovation ensures efficient, responsible, and impactful environmental stewardship."</p>
+            <div class="aboutimg">
+                <img src="{% static 'image/aboutusimage.png' %}" alt="" class="fam">
+            </div>
+            <div class="row mt-1">
+                <div class="col-sm-6">
+                    <div class="card-about">
+                        <div class="card-body">
+                            <h5 class="card-title"><b><i class="fa-solid fa-hand-holding-heart"></i>&nbsp;&nbsp;Our Mission</b></h5>
+                            <p class="card-text">"Our mission is to we prioritize resource recovery and eco-friendly practices.Our
+                                dedication to sustainability drives us to create a cleaner, greener world, ensuring a healthier future
+                                for all."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card-about">
+                        <div class="card-body">
+                            <h5 class="card-title"><b><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team</b></h5>
+                            <p class="card-text">"Our diverse team comprises dedicated experts passionate about sustainability. We
+                                collaborate, employing expertise and innovation to drive impactful"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div><br>
+            </div>
+        </div>
+    </div>
+    <div class="featured-campaigns">
+        <div class="container row" id="services">
+            <h2>Our Services &nbsp;<i class="fa-solid fa-angles-right"></i></h2>
+            <p>"Our comprehensive waste management services offer tailored solutions for diverse needs. We prioritize
+                efficiency, Trust us to handle your waste efficiently, contributing to a healthier planet for generations to
+                come. Partner with us for reliable, professional services that align with your environmental goals and community
+                sustainability."</p>
+            <div class="campaign-card">
+                <img src="{% static 'image/biodegradable1.jpg' %}" alt="Campaign 1">
+                <h3>Bio Degradable</h3>
+                <p>Biodegradable waste is organic material that breaks down naturally over time, like food scraps or paper. 
+                    It can be composted to create nutrient-rich soil</p><br>
+                <a href="{% url 'log' %}" class="donate-button">View More</a>
+            </div>
+            <div class="campaign-card">
+                <img src="{% static 'image/nonbio1.jpg' %}" alt="Campaign 1">
+                <h3>Non Degradable</h3>
+                <p>Non-biodegradable waste is material that doesn't break down naturally, like plastic or metal. 
+                    It can harm the environment if not properly managed or recycled.</p><br>
+                <a href="{% url 'log' %}" class="donate-button">View More</a>
+            </div>
+            <div class="campaign-card">
+                <img src="{% static 'image/hazard.jpg' %}" alt="Campaign 1">
+                <h3>Hazardous Waste</h3>
+                <p>Hazardous waste is dangerous material that can harm health or the environment, like chemicals or batteries. 
+                    It needs special handling and disposal to prevent contamination.</p>
+                <a href="{% url 'log' %}" class="donate-button">View More</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contactpage">
+        <div class="container">
+            <h2>Contact Us&nbsp;<i class="fa-solid fa-angles-right"></i></h2>
+            <p>Contact us for inquiries, assistance, or feedback. Thank you!</p>
+            <p><i class="fa-solid fa-location-dot"></i>&nbsp;Calicut, Kerala <br>
+                <i class="fa-solid fa-phone"></i>&nbsp;+91 111 222 333
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{% static 'image/Contact-Us.png' %}" alt="Contact Image" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <form action="#" method="post" class="formcont">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Enter Message"
+                                required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <p>&copy; Green City. All rights reserved.</p>
+        </div>
+        <div class="social-media">
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fab fa-facebook-square"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-square-x-twitter"></i></i></a>
+                <a href="#" class="icon"><i class="fab fa-instagram-square"></i></a>
+                <a href="#" class="icon"><i class="fab fa-youtube-square"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
