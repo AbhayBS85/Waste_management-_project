@@ -11,4 +11,5 @@ urlpatterns=[
     path('nb/',views.nonbiowaste,name='nb'),
     path('hz/',views.hazwaste,name='hz'),
     path('successpage/',views.success,name='successpage'),
+    path('payment_page/',views.payment,name='payment_page'),
 ]

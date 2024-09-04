@@ -108,7 +108,10 @@ def biode(request):
         )
         biowaste.save()
 
-        return redirect('successpage')
+        if weight_option=='Check on pickup':
+            return redirect('successpage')
+        elif weight_option=='Enter the weight manually' and manual_weight:
+            return redirect('payment_page')
     return render(request,'dergradable_form.html')
 
 def requiredindex(request):
@@ -146,7 +149,10 @@ def nonbiowaste(request):
         )
         biowaste.save()
 
-        return redirect('successpage')
+        if weight_option=='Check on pickup':
+            return redirect('successpage')
+        elif weight_option=='Enter the weight manually' and manual_weight:
+            return redirect('payment_page')
     return render(request,"nonbio.html")
 
 def hazwaste(request):
@@ -172,9 +178,16 @@ def hazwaste(request):
             address=address
         )
         biowaste.save()
-        return redirect('successpage')
+
+        if weight_option=='Check on pickup':
+            return redirect('successpage')
+        elif weight_option=='Enter the weight manually' and manual_weight:
+            return redirect('payment_page')
     return render(request,"hazardous.html")
 
 def success(request):
     return render(request,"success.html")
+
+def payment(request):
+    return render(request,"paymentpage.html")
 
