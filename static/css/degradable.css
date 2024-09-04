@@ -1,0 +1,83 @@
+body {
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-gap: 20px;
+}
+
+#name-group {
+    grid-column: 1 / 2;
+    grid-row: 1;
+}
+
+#phone-group {
+    grid-column: 2 / 3;
+    grid-row: 1;
+}
+
+#category-group {
+    grid-column: 2 / 3;
+    grid-row: 2;
+}
+
+#weight-group {
+    grid-column: 1 / 2;
+    grid-row: 2;
+}
+
+#address-group {
+    grid-column: 2 / 3;
+    grid-row: 3 / 5;
+}
+
+input[type="text"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+textarea {
+    resize: none;
+}
+
+.submit-btn {
+    grid-column: 1 / 3;
+    width: 100px;
+    justify-self: center;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}

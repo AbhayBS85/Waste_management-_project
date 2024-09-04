@@ -302,15 +302,12 @@
 
         .social-icons .icon i {
         font-size: 36px;
-        /* Adjust the font size of the social media icons */
         color: #fff;
-        /* Color of the social media icons */
         transition: color 0.3s;
         }
 
         .social-icons .icon i:hover {
         color: #fff;
-        /* Color change on hover */
         }
 
         .footer {
@@ -328,7 +325,6 @@
 
         .formcont {
         max-width: 100%;
-        /* Updated for responsiveness */
         margin: 0 auto;
         }
 
@@ -408,10 +404,10 @@
                 <a href="#services">Services</a>
                 <a href="#contact">Contact Us</a>
                 <a href="#">Gallery</a>
-                <a href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</a>
+                <a href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;{{ username }}</a>
             </div>
             <div class="signup-button">
-                <a href="{% url 'log' %}"><button>Login</button></a>
+                <a href="{% url 'logout' %}"><button>Logout</button></a>
             </div>
         </div>
     </div>
@@ -426,7 +422,7 @@
             <a href="#services" class="cmpgn-button">Our Services</a>
         </div>
     </div>
-
+    <br>
     <div class="about" id="about">
         <div class="container">
             <h2>About Us&nbsp;<i class="fa-solid fa-angles-right"></i></h2>
@@ -473,21 +469,21 @@
                 <h3>Bio Degradable</h3>
                 <p>Biodegradable waste is organic material that breaks down naturally over time, like food scraps or paper. 
                     It can be composted to create nutrient-rich soil</p><br>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
+                <a href="{% url 'degradable' %}" class="donate-button">Donate</a>
             </div>
             <div class="campaign-card">
                 <img src="{% static 'image/nonbio1.jpg' %}" alt="Campaign 1">
                 <h3>Non Degradable</h3>
                 <p>Non-biodegradable waste is material that doesn't break down naturally, like plastic or metal. 
                     It can harm the environment if not properly managed or recycled.</p><br>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
+                <a href="{% url 'nb' %}" class="donate-button">Donate</a>
             </div>
             <div class="campaign-card">
                 <img src="{% static 'image/hazard.jpg' %}" alt="Campaign 1">
                 <h3>Hazardous Waste</h3>
                 <p>Hazardous waste is dangerous material that can harm health or the environment, like chemicals or batteries. 
                     It needs special handling and disposal to prevent contamination.</p>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
+                <a href="{% url 'hz' %}" class="donate-button">Donate</a>
             </div>
         </div>
     </div>

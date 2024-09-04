@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodegradable Waste</title>
+
+    <style>
+        body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto auto;
+            grid-gap: 20px;
+        }
+
+        #name-group {
+            grid-column: 1 / 2;
+            grid-row: 1;
+        }
+
+        #phone-group {
+            grid-column: 2 / 3;
+            grid-row: 1;
+        }
+
+        #category-group {
+            grid-column: 2 / 3;
+            grid-row: 2;
+        }
+
+        #weight-group {
+            grid-column: 1 / 2;
+            grid-row: 2;
+        }
+
+        #address-group {
+            grid-column: 2 / 3;
+            grid-row: 3 / 5;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .submit-btn {
+            grid-column: 1 / 3;
+            width: 100px;
+            justify-self: center;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .navbar {
+        background-color: rgb(27, 189, 27);
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 30px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        }
+
+        /* .logo h4 {
+        font-size: 25px;
+        font-family: 'Pacifico', cursive;
+        } */
+
+        .nav-links {
+        display: flex;
+        }
+
+        .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 25px;
+        position: relative;
+        transition: border-bottom 0.5s;
+        }
+
+        .nav-links a:hover {
+        border-bottom: 1px solid #fff;
+        }
+        .signup-button button {
+        background-color:rgb(27, 189, 27);
+        color: #fff;
+        border: 1px solid #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        }
+
+        .signup-button button:hover {
+        background-color: #fff;
+        color: green;
+        transition: 0.5s ease;
+        }
+
+        .footer {
+        background:rgb(27, 189, 27);
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="navbar">
+            <div class="logo">
+                <h4>Green City&nbsp;&reg;</h4>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br>
+    <div class="form-container">
+        <h2>Bio Degradable Waste</h2>
+        <form method="POST">
+            <!-- {% csrf_token %}
+            <div class="form-group" id="name-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group" id="phone-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group" id="category-group">
+                <label for="category">Choose the Category of Waste *</label>
+                <select id="category" name="category" required>
+                    <option value="">-- select --</option> -->
+                    <!-- Add categories here -->
+                <!-- </select>
+            </div>
+            <div class="form-group" id="weight-group">
+                <label for="weight">Enter the Weight of Waste *</label>
+                <select id="weight" name="weight" required>
+                    <option value="">-- select --</option> -->
+                    <!-- Add weight options here -->
+                <!-- </select> -->
+            <!-- </div> -->
+            <!-- <div class="form-group" id="address-group">
+                <label for="address">Address *</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Finish</button> -->
+
+            {% csrf_token %}
+            <div class="form-group" id="name-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group" id="phone-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group" id="category-group">
+                <label for="category">Choose the Category of Waste *</label>
+                <select id="category" name="category" required>
+                    <option value="">-- select --</option>
+                    <option value="Food waste">Food waste</option>
+                    <option value="Paper waste">Paper waste</option>
+                    <option value="Wooden waste">Wooden waste</option>
+                    <option value="Garden waste">Garden waste</option>
+                    <option value="Bamboo products">Bamboo products</option>
+                    <option value="Cotton/Wool">Cotton/Wool</option>
+                    <option value="Animal waste">Animal waste</option>
+                    <option value="Tea bags and coffee filters">Tea bags and coffee filters</option>
+                </select>
+            </div>
+            <div class="form-group" id="weight-group">
+                <label for="weight">Enter the Weight of Waste *</label>
+                <select id="weight" name="weight_option" onchange="toggleWeightInput()" required>
+                    <option value="">-- select --</option>
+                    <option value="Enter the weight manually">Enter the weight manually</option>
+                    <option value="Check on pickup">Check on pickup</option>
+                </select>
+            </div>
+            <div class="form-group" id="manual-weight-group" style="display: none;">
+                <label for="manual_weight">Enter Weight (kg)</label>
+                <input type="number" id="manual_weight" name="manual_weight" step="0.1">
+            </div>
+            <div class="form-group" id="address-group">
+                <label for="address">Address *</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Finish</button>
+        </form> 
+    </div>
+    <br><br><br>
+    <div class="footer">
+        <div class="container">
+            <p>&copy; Green City. All rights reserved.</p>
+        </div>
+        <div class="social-media">
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fab fa-facebook-square"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-square-x-twitter"></i></i></a>
+                <a href="#" class="icon"><i class="fab fa-instagram-square"></i></a>
+                <a href="#" class="icon"><i class="fab fa-youtube-square"></i></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleWeightInput() {
+            var weightOption = document.getElementById("weight").value;
+            var manualWeightGroup = document.getElementById("manual-weight-group");
+            if (weightOption === "Enter the weight manually") {
+                manualWeightGroup.style.display = "block";
+            } else {
+                manualWeightGroup.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

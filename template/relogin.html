@@ -138,8 +138,14 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="{% url 'log' %}" method="POST">
+    <form action="login" method="POST">
         {% csrf_token %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
         <h3>Welcome Back</h3><br><br>
 
         <!-- <label for="username">Username</label> -->
@@ -148,9 +154,6 @@
         <!-- <label for="password">Password</label> -->
         <input type="password" placeholder="Password" id="password" name="password">
         <button type="submit">Log In</button><br>
-        <div class="links">
-            <p>New User?<a href="{% url 'sign' %}">Create an Account Here</a></p>
-        </div>
     </form>
 </body>
 </html>

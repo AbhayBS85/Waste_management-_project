@@ -132,24 +132,34 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="signup" method="POST">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <form action="{% url 'sign' %}" method="POST">
         {% csrf_token %}
+
         <h3>SignUp</h3>
 
         <!-- <label for="fname">Full Name</label> -->
-        <input type="text" placeholder="Enter Full Name" name="fullname">
+        <input type="text" placeholder="Enter Full Name" name="fullname1" required>
 
         <!-- <label for="username">Username</label> -->
-        <input type="text" placeholder="Enter Username" name="username">
+        <input type="text" placeholder="Enter Username" name="username1" required>
+
+        <input type="text" placeholder="Address" name="address1" required>
 
         <!-- <label for="email">Email</label> -->
-        <input type="email" placeholder=" Enter Email" name="email">
+        <input type="email" placeholder=" Enter Email" name="email1" required>
+
+        <input type="tel" placeholder="Enter Phone Number" name="phone1" required>
 
         <!-- <label for="password">Password</label> -->
-        <input type="password" placeholder="Password" name="password">
+        <input type="password" placeholder="Password" name="password1" required>
 
         <!-- <label for="password">Re Enter Password</label> -->
-        <input type="password" placeholder="Re Enter Password" name="repassword">
+        <input type="password" placeholder="Re Enter Password" name="repassword1" required>
 
         <button type="submit">Sign Up</button><br><br>
         <div class="links">
