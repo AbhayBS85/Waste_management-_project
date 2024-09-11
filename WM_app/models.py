@@ -1,4 +1,5 @@
 from multiselectfield import MultiSelectField
+from django.utils import timezone
 from django.db import models
 
 # Create your models here.
@@ -52,3 +53,47 @@ class Hazardouswaste(models.Model):
 
     def __str__(self):
         return f"{self.waste_id} - {self.username}"
+    
+
+class Pickup(models.Model):
+    pickup_id=models.AutoField(primary_key=True)
+    customer=models.CharField(max_length=255)
+    contact_number=models.CharField(max_length=15)  
+    waste_type=models.CharField(max_length=50)
+    weight=models.CharField(max_length=50)
+    location=models.TextField()
+    payment_status=models.CharField(max_length=50)
+    date=models.DateTimeField(default=timezone.now)  
+    pickup_status=models.CharField(max_length=50,default='Pending')
+
+    def _str_(self):
+        return f"{self.pickup_id} - {self.customer}"
+
+
+class Handlers(models.Model):
+    id=models.AutoField(primary_key=True)
+    name=models.CharField(max_length=255)
+    password=models.CharField(max_length=255)
+    phone_number=models.CharField(max_length=15,unique=True,error_messages={
+        'unique':"A person with this phone number already exists."
+    })
+    email=models.EmailField(unique=True, error_messages={
+        'unique':"A person with this email already exists."
+    })
+    def __str__(self):
+        return f"{self.name} - {self.id}"
+    
+
+class Staff(models.Model):
+    STATUS_CHOICES=[
+        ('Engaged','Engaged'),
+        ('Free to pick','Free to pick')
+    ]
+    name=models.CharField(max_length=100)
+    password=models.CharField(max_length=128)  # Use Django's built-in password hashing
+    email=models.EmailField(unique=True)  # Unique email
+    phone_number=models.CharField(max_length=15,unique=True)  # Unique phone number
+    status=models.CharField(max_length=20,choices=STATUS_CHOICES,default='Free to pick')
+
+    def __str__(self):
+        return f"{self.name} - {self.id}"

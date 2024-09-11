@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Pickups</title>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .title-container {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .alert-icon {
+            font-size: 20px;
+            color: red;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        .details p {
+            margin: 5px 0;
+        }
+
+        .assign-btn {
+            padding: 8px 15px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="title-container">
+            <span class="title">Today's Pickups</span>
+            <span class="alert-icon">&#9888;</span> <!-- Alert icon -->
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="content">
+        <div class="details">
+            <p>Pickup ID: XYZ</p>
+            <p>Customer Name: ABC</p>
+            <p>Phone Number: </p>
+            <p>Location: </p>
+            <p>Waste Type: </p>
+            <p>Waste Weight: </p>
+            <p>Payment: </p>
+        </div>
+        <!-- Assign Button -->
+        <button class="assign-btn">Assign</button>
+    </div>
+</body>
+</html>

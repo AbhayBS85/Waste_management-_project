@@ -12,4 +12,10 @@ urlpatterns=[
     path('hz/',views.hazwaste,name='hz'),
     path('successpage/',views.success,name='successpage'),
     path('payment_page/',views.payment,name='payment_page'),
+    path('adm_dash/',views.admindashboard,name='adm_dash'),
+    path('pickassign/',views.pickupassign,name='pickassign'),
+    path('wastepick/',views.wastepickup,name='wastepick'),
+    path('staff/',views.staffprofile,name='staff'),
+    path('add_staff/',views.newstaff,name='add_staff'),
+    path('staff_management/',views.deletestaff,name='staff_management'),
 ]

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>Dashboard</title>
   {% load static %}
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -19,7 +19,8 @@
 
   <!-- <link rel="stylesheet" href="static/CSS/style.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer"/> -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&family=Pacifico&family=Poppins:wght@300&display=swap">
@@ -30,6 +31,20 @@
         font-family: Arial, sans-serif;
         background: #f0f0f0;
         }
+
+        /* body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0; /* Base background color */
+            /* padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('your-background-image.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            backdrop-filter: blur(10px); 
+        }  */
 
         .container {
         max-width: 1200px;
@@ -320,6 +335,7 @@
         text-align: center;
         bottom: 0;
         width: 100%;
+        position: fixed;
         }
 
         .cinfo {
@@ -393,6 +409,81 @@
         text-decoration: none;
         transition: 0.5s ease;
         }
+
+        a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .popup-container {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Background blur effect */
+            backdrop-filter: blur(8px); /* Apply blur */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: rgb(255, 255, 255);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #0f0f0f;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+        }
+        .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url(../static/image/cover1.jpg) no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 
@@ -402,139 +493,71 @@
             <div class="logo">
                 <h4>Green City&nbsp;&reg;</h4>
             </div>
-            <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#about">About</a>
-                <a href="#services">Services</a>
-                <a href="#contact">Contact Us</a>
-                <a href="{% url 'adm_dash' %}">Gallery</a>
-                <a href="#"><i class="fa-solid fa-user"></i>&nbsp;&nbsp;My Profile</a>
-            </div>
-            <div class="signup-button">
-                <a href="{% url 'log' %}"><button>Login</button></a>
-            </div>
         </div>
     </div>
+    <div class="form-wrapper">
+        <div class="form-container">
+            <h2>New Staff Entry</h2>
+            <form id="staffForm" method="POST" action="{% url 'add_staff' %}">
+                {% csrf_token %}
+                <label for="name">Staff Name:</label>
+                <input type="text" id="name" name="name" required>
 
-    <div class="hero">
-        <div class="container">
-            <h1>Waste and Recycling<br>
-                <span style="color: green;">Solutions</span><br>
-                For Your Home,Business,or city.
-            </h1>
-            <br>
-            <a href="#services" class="cmpgn-button">Our Services</a>
-        </div>
-    </div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
 
-    <div class="about" id="about">
-        <div class="container">
-            <h2>About Us&nbsp;<i class="fa-solid fa-angles-right"></i></h2>
-            <p>"We're committed to sustainable waste management, offering tailored solutions. Our focus on eco-friendly
-                practices and innovation ensures efficient, responsible, and impactful environmental stewardship."</p>
-            <div class="aboutimg">
-                <img src="{% static 'image/aboutusimage.png' %}" alt="" class="fam">
-            </div>
-            <div class="row mt-1">
-                <div class="col-sm-6">
-                    <div class="card-about">
-                        <div class="card-body">
-                            <h5 class="card-title"><b><i class="fa-solid fa-hand-holding-heart"></i>&nbsp;&nbsp;Our Mission</b></h5>
-                            <p class="card-text">"Our mission is to we prioritize resource recovery and eco-friendly practices.Our
-                                dedication to sustainability drives us to create a cleaner, greener world, ensuring a healthier future
-                                for all."
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card-about">
-                        <div class="card-body">
-                            <h5 class="card-title"><b><i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Our Team</b></h5>
-                            <p class="card-text">"Our diverse team comprises dedicated experts passionate about sustainability. We
-                                collaborate, employing expertise and innovation to drive impactful"
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                </div><br>
-            </div>
-        </div>
-    </div>
-    <div class="featured-campaigns">
-        <div class="container row" id="services">
-            <h2>Our Services &nbsp;<i class="fa-solid fa-angles-right"></i></h2>
-            <p>"Our comprehensive waste management services offer tailored solutions for diverse needs. We prioritize
-                efficiency, Trust us to handle your waste efficiently, contributing to a healthier planet for generations to
-                come. Partner with us for reliable, professional services that align with your environmental goals and community
-                sustainability."</p>
-            <div class="campaign-card">
-                <img src="{% static 'image/biodegradable1.jpg' %}" alt="Campaign 1">
-                <h3>Bio Degradable</h3>
-                <p>Biodegradable waste is organic material that breaks down naturally over time, like food scraps or paper. 
-                    It can be composted to create nutrient-rich soil</p><br>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
-            </div>
-            <div class="campaign-card">
-                <img src="{% static 'image/nonbio1.jpg' %}" alt="Campaign 1">
-                <h3>Non Degradable</h3>
-                <p>Non-biodegradable waste is material that doesn't break down naturally, like plastic or metal. 
-                    It can harm the environment if not properly managed or recycled.</p><br>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
-            </div>
-            <div class="campaign-card">
-                <img src="{% static 'image/hazard.jpg' %}" alt="Campaign 1">
-                <h3>Hazardous Waste</h3>
-                <p>Hazardous waste is dangerous material that can harm health or the environment, like chemicals or batteries. 
-                    It needs special handling and disposal to prevent contamination.</p>
-                <a href="{% url 'log' %}" class="donate-button">Donate</a>
-            </div>
-        </div>
-    </div>
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" required>
+                <span id="email-error" class="error-message"></span>
 
-    <div class="contactpage">
-        <div class="container">
-            <h2>Contact Us&nbsp;<i class="fa-solid fa-angles-right"></i></h2>
-            <p>Contact us for inquiries, assistance, or feedback. Thank you!</p>
-            <p><i class="fa-solid fa-location-dot"></i>&nbsp;Calicut, Kerala <br>
-                <i class="fa-solid fa-phone"></i>&nbsp;+91 111 222 333
-            </p>
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="{% static 'image/Contact-Us.png' %}" alt="Contact Image" class="img-fluid">
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <form action="#" method="post" class="formcont">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Enter Message"
-                                required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit Message</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" id="phone_number" name="phone_number" required>
+                <span id="phone-error" class="error-message"></span>
+
+                <button type="submit" id="submitBtn">Add Staff</button>
+            </form>
         </div>
     </div>
-    <div class="footer">
-        <div class="container">
-            <p>&copy; Green City. All rights reserved.</p>
-        </div>
-        <div class="social-media">
-            <div class="social-icons">
-                <a href="#" class="icon"><i class="fab fa-facebook-square"></i></a>
-                <a href="#" class="icon"><i class="fa-brands fa-square-x-twitter"></i></i></a>
-                <a href="#" class="icon"><i class="fab fa-instagram-square"></i></a>
-                <a href="#" class="icon"><i class="fab fa-youtube-square"></i></a>
-            </div>
-        </div>
-    </div>
+    <script>
+            document.addEventListener('DOMContentLoaded',()=>{
+            const emailInput=document.getElementById('email');
+            const phoneInput=document.getElementById('phone_number');
+            const emailError=document.getElementById('email-error');
+            const phoneError=document.getElementById('phone-error');
+            const submitBtn=document.getElementById('submitBtn');
+
+            // Function to check email existence
+            emailInput.addEventListener('input',()=>{
+                const email=emailInput.value;
+                fetch(`/check_email/?email=${email}`)
+                    .then(response=>response.json())
+                    .then(data=>{
+                        if (data.exists) {
+                            emailError.textContent='Mail ID already in use';
+                            submitBtn.disabled=true;
+                        } else {
+                            emailError.textContent='';
+                            submitBtn.disabled=false;
+                        }
+                    });
+            });
+
+            // Function to check phone number existence
+            phoneInput.addEventListener('input',()=>{
+                const phone = phoneInput.value;
+                fetch(`/check_phone/?phone=${phone}`)
+                    .then(response=>response.json())
+                    .then(data=>{
+                        if (data.exists) {
+                            phoneError.textContent='Phone number already exists. Try another one';
+                            submitBtn.disabled=true;
+                        } else {
+                            phoneError.textContent='';
+                            submitBtn.disabled=false;
+                        }
+                    });
+            });
+        });
+    </script>
 </body>
 </html>

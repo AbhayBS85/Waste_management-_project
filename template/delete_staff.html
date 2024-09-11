@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Management</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f072;
+        }
+
+        .container {
+            padding: 20px;
+            width: 80%;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+
+        }
+
+        th, td {
+            border: 3px solid #545353;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            /* width: 600px; */
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .ok-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .no-btn{
+            background-color: #f50c0cef;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Remove Staff</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Staff ID</th>
+                    <th>Phone Number</th>
+                    <th>Email ID</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for staff in staff_list %}
+                <tr>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.id }}</td>
+                    <td>{{ staff.phone_number }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>
+                        <button class="delete-btn" onclick="showPopup('{{ staff.id }}')">
+                            <img style="height: 20px;width: 20px;" src="{% static 'image/delete.png' %}" alt="Delete Icon">
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pop-up Container -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <p>Delete Staff?</p>
+            <button class="ok-btn" onclick="confirmDelete()">Ok</button>
+            <button class="no-btn" onclick="cancelDelete()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let staffToDelete = null;
+
+        function showPopup(staffId) {
+            staffToDelete = staffId;
+            document.getElementById('popup').style.display ='block';
+        }
+
+        function confirmDelete() {
+            if (staffToDelete !== null) {
+                window.location.href = '{% url "staff_management" %}?id=' + staffToDelete;
+            }
+        }
+        function cancelDelete() {
+            // Redirect the user to the 'staff_management' page
+            window.location.href = "{% url 'staff_management' %}";
+        }
+    </script>
+</body>
+</html>

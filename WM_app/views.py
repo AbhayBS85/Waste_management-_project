@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.utils import timezone
 from.models import*
 
 
@@ -97,6 +99,7 @@ def biode(request):
             waste_weight=manual_weight
         else:
             waste_weight=weight_option
+            payment_status='Cash on Pickup'
 
         biowaste=Biowaste(
             username=name,
@@ -107,6 +110,16 @@ def biode(request):
             address=address
         )
         biowaste.save()
+        pickup=Pickup(
+            customer=name,
+            contact_number=phone,
+            waste_type=waste_type,
+            weight=waste_weight,
+            location=address,
+            payment_status=payment_status,
+            date=timezone.now()
+        )
+        pickup.save()
 
         if weight_option=='Check on pickup':
             return redirect('successpage')
@@ -191,3 +204,41 @@ def success(request):
 def payment(request):
     return render(request,"paymentpage.html")
 
+def admindashboard(request):
+    return render(request,"admin_dashboard.html")
+
+def pickupassign(request):
+    return render(request,"assign.html")
+
+def wastepickup(request):
+    return render(request,"pickup.html")
+
+def staffprofile(request):
+    return render(request,"staff.html")
+
+def newstaff(request):
+    if request.method=='POST':
+        name=request.POST['name']
+        password=request.POST['password']
+        email=request.POST['email']
+        phone_number=request.POST['phone_number']
+        if Staff.objects.filter(email=email).exists():
+            messages.error(request,'Email ID already in use.')
+            return redirect('add_staff') 
+        elif Staff.objects.filter(phone_number=phone_number).exists():
+            messages.error(request,'Phone number already exists. Try another one.')
+            return redirect('add_staff')
+        staff=Staff(name=name,password=password,email=email,phone_number=phone_number)
+        staff.save()
+        messages.success(request,'Staff added successfully!')
+        return redirect('adm_dash')
+    return render(request,"add_staff.html")
+
+
+def deletestaff(request):
+    staff_list = Staff.objects.all()
+    staff_id = request.GET.get('id')
+    if staff_id:
+        Staff.objects.filter(id=staff_id).delete()
+        return redirect('staff_management')
+    return render(request,"delete_staff.html",{'staff_list': staff_list})
