@@ -233,7 +233,8 @@ def pickupassign(request):
     return render(request,"assign.html")
 
 def wastepickup(request):
-    return render(request,"pickup.html")
+    pickups=Pickup.objects.all().order_by('-date')
+    return render(request,"pickup.html",{'pickups':pickups})
 
 def staffprofile(request):
     return render(request,"staff.html")

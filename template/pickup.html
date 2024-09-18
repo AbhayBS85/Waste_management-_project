@@ -51,7 +51,8 @@
         }
 
         .details p {
-            margin: 5px 0;
+            margin: 8px 0;
+            font-size: 14px;
         }
 
         .assign-btn {
@@ -62,6 +63,17 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+        }
+        .assign-btn:hover {
+            background-color: #0056b3;
+        }
+        .pickup-container {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -75,19 +87,25 @@
     </header>
 
     <!-- Content Section -->
-    <div class="content">
-        <div class="details">
-            <p>Pickup ID: </p>
-            <p>Customer Name: </p>
-            <p>Phone Number: </p>
-            <p>Location: </p>
-            <p>Waste Type: </p>
-            <p>Waste Weight: </p>
-            <p>Payment: </p>
-            <p>Date & Time:</p>
+    {% for pickup in pickups %}
+        <div class="pickup-container">
+            <div class="content">
+                <div class="details">
+                    <p>Pickup ID:{{ pickup.pickup_id }}</p>
+                    <p>Customer Name:{{ pickup.customer }}</p>
+                    <p>Phone Number:{{ pickup.contact_number }}</p>
+                    <p>Location:{{ pickup.location }}</p>
+                    <p>Waste Type:{{ pickup.waste_type }}</p>
+                    <p>Waste Weight:{{ pickup.weight }}</p>
+                    <p>Payment:{{ pickup.payment_status }}</p>
+                    <p>Date & Time:{{ pickup.date }}</p>
+                </div>
+                <!-- Assign Button -->
+                <button class="assign-btn">Assign</button>
+            </div>
         </div>
-        <!-- Assign Button -->
-        <button class="assign-btn">Assign</button>
-    </div>
+    {% empty %}
+        <p>No pickups available.</p>
+    {% endfor %}
 </body>
 </html>
