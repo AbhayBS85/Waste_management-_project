@@ -151,8 +151,9 @@ def nonbiowaste(request):
             waste_weight=manual_weight
         else:
             waste_weight=weight_option
+            payment_status='Cash on Pickup'
 
-        biowaste=NonBiowaste(
+        non_biowaste=NonBiowaste(
             username=name,
             contact_no=phone,
             waste_type=waste_type,
@@ -160,7 +161,17 @@ def nonbiowaste(request):
             manual_weight=manual_weight if manual_weight else None,
             address=address
         )
-        biowaste.save()
+        non_biowaste.save()
+        pickup=Pickup(
+            customer=name,
+            contact_number=phone,
+            waste_type=waste_type,
+            weight=waste_weight,
+            location=address,
+            payment_status=payment_status,
+            date=timezone.now()
+        )
+        pickup.save()
 
         if weight_option=='Check on pickup':
             return redirect('successpage')
@@ -181,8 +192,9 @@ def hazwaste(request):
             waste_weight=manual_weight
         else:
             waste_weight=weight_option
+            payment_status='Cash on Pickup'
 
-        biowaste=Hazardouswaste(
+        hazardwaste=Hazardouswaste(
             username=name,
             contact_no=phone,
             waste_type=waste_type,
@@ -190,7 +202,17 @@ def hazwaste(request):
             manual_weight=manual_weight if manual_weight else None,
             address=address
         )
-        biowaste.save()
+        hazardwaste.save()
+        pickup=Pickup(
+            customer=name,
+            contact_number=phone,
+            waste_type=waste_type,
+            weight=waste_weight,
+            location=address,
+            payment_status=payment_status,
+            date=timezone.now()
+        )
+        pickup.save()
 
         if weight_option=='Check on pickup':
             return redirect('successpage')
@@ -236,9 +258,12 @@ def newstaff(request):
 
 
 def deletestaff(request):
-    staff_list = Staff.objects.all()
-    staff_id = request.GET.get('id')
+    staff_list=Staff.objects.all()
+    staff_id=request.GET.get('id')
     if staff_id:
         Staff.objects.filter(id=staff_id).delete()
         return redirect('staff_management')
     return render(request,"delete_staff.html",{'staff_list': staff_list})
+
+def staffedit(request):
+    return render(request,"staff_edit.html")

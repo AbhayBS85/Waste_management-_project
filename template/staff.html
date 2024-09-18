@@ -11,6 +11,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background: url(../static/image/cover1.jpg) no-repeat;
+            background-size: cover;
         }
 
         .header {
@@ -23,7 +25,7 @@
         }
 
         .menu-btn, .user-icon {
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
         }
 
@@ -55,7 +57,7 @@
 
         .task-completed-btn {
             display: block;
-            width: 100%;
+            width: 10%;
             padding: 10px;
             font-size: 16px;
             font-weight: bold;
@@ -66,12 +68,54 @@
             margin-top: 20px;
             cursor: pointer;
         }
+        .sidebar.open {
+            width: 250px;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+        }
+
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
-        <div class="menu-btn">&#9776; Menu</div>
+        <div class="menu-btn" onclick="toggleSidebar()">&#9776; Menu</div>
+        <div id="sidebar" class="sidebar">
+            <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
+            <a href="{% url 'edit' %}">Edit Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="#services">Assistance</a>
+        </div>
         <div class="user-icon">&#128100; Staff Profile</div>
     </header>
 
@@ -80,23 +124,24 @@
         <h2>New Task</h2>
         <form class="task-form">
             <label for="customer-name">Customer Name:</label>
-            <input type="text" id="customer-name" name="customer-name" placeholder="Enter customer name">
 
             <label for="location">Location:</label>
-            <input type="text" id="location" name="location" placeholder="Enter location">
 
             <label for="phone-number">Phone Number:</label>
-            <input type="tel" id="phone-number" name="phone-number" placeholder="Enter phone number">
 
             <label for="payment">Payment:</label>
-            <input type="text" id="payment" name="payment" placeholder="Enter payment status">
 
             <label for="pickup-id">Pickup ID:</label>
-            <input type="text" id="pickup-id" name="pickup-id" placeholder="Enter pickup ID">
+            <button type="submit" class="task-completed-btn">Task Completed</button>
         </form>
     </div>
 
     <!-- Task Completed Button -->
-    <button class="task-completed-btn">Task Completed</button>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
