@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today's Pickups</title>
+    <title>Previous Pickups</title>
     <style>
         /* Basic styles for layout */
         body {
@@ -27,9 +27,8 @@
         }
 
         .title {
-            font-size: 20px;
+            font-size: 30px;
             font-weight: bold;
-            margin-right: 10px;
         }
 
         .alert-icon {
@@ -92,41 +91,53 @@
             background-color: #007bff;
             color: #fff;
         }
+        .date-section {
+            margin-bottom: 20px;
+            /* text-align: center; */
+        }
+        .date-heading {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+        .content {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
         <div class="title-container">
-            <span class="title">Today's Pickups</span>
-            <span class="alert-icon">&#9888;</span> <!-- Alert icon -->
-            <div class="links">
-                <a href="#" class="pickup-link">Assigned Pickups</a>
-                <a href="{% url 'prev' %}" class="pickup-link">Previous Pickups</a>
-            </div>
+            <span class="title">Previous Pickups</span>
         </div>
     </header>
 
     <!-- Content Section -->
-    {% for pickup in pickups %}
-        <div class="pickup-container">
-            <div class="content">
-                <div class="details">
-                    <p>Pickup ID:{{ pickup.pickup_id }}</p>
-                    <p>Customer Name:{{ pickup.customer }}</p>
-                    <p>Phone Number:{{ pickup.contact_number }}</p>
-                    <p>Location:{{ pickup.location }}</p>
-                    <p>Waste Type:{{ pickup.waste_type }}</p>
-                    <p>Waste Weight:{{ pickup.weight }}</p>
-                    <p>Payment:{{ pickup.payment_status }}</p>
-                    <p>Date & Time:{{ pickup.date }}</p>
+    {% for date,pickups in pickup_by_date.items %}
+        <div class="date-section">
+            <h2 class="date-heading">{{ date }}</h2>
+            {% for pickup in pickups %}
+                <div class="content">
+                    <div class="details">
+                        <p>Pickup ID : {{ pickup.pickup_id }}</p>
+                        <p>Customer Name : {{ pickup.customer }}</p>
+                        <p>Phone Number : {{ pickup.contact_number }}</p>
+                        <p>Location : {{ pickup.location }}</p>
+                        <p>Waste Type : {{ pickup.waste_type }}</p>
+                        <p>Waste Weight : {{ pickup.weight }}</p>
+                        <p>Payment : {{ pickup.payment_status }}</p>
+                        <p>Date & Time : {{ pickup.date }}</p>
+                    </div>
                 </div>
-                <!-- Assign Button -->
-                <button class="assign-btn">Assign</button>
-            </div>
+            {% endfor %}
         </div>
     {% empty %}
-        <p>No pickups available.</p>
+        <p>No previous pickups available.</p>
     {% endfor %}
 </body>
 </html>

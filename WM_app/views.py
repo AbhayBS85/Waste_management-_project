@@ -1,10 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
+from django.db.models.functions import Cast
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth import logout
+from django.db.models import DateField
 from django.contrib import messages
 from django.utils import timezone
+from datetime import timedelta
 from.models import*
 
 
@@ -233,8 +236,10 @@ def pickupassign(request):
     return render(request,"assign.html")
 
 def wastepickup(request):
-    pickups=Pickup.objects.all().order_by('-date')
-    return render(request,"pickup.html",{'pickups':pickups})
+    now=timezone.now() 
+    start_of_day=now.replace(hour=0,minute=0,second=0,microsecond=0)
+    todays_pickups=Pickup.objects.filter(date__gte=start_of_day,date__lte=now)
+    return render(request,"pickup.html",{'pickups':todays_pickups})
 
 def staffprofile(request):
     return render(request,"staff.html")
@@ -268,3 +273,19 @@ def deletestaff(request):
 
 def staffedit(request):
     return render(request,"staff_edit.html")
+
+
+
+def oldpickups(request):
+    now=timezone.now()
+    start_of_day=now.replace(hour=0,minute=0,second=0,microsecond=0)
+    pickups=Pickup.objects.filter(date__lt=start_of_day).annotate(
+        date_only=Cast('date',DateField())
+    ).order_by('-date_only','-date')
+    pickup_by_date={}
+    for pickup in pickups:
+        pickup_date=pickup.date_only
+        if pickup_date not in pickup_by_date:
+            pickup_by_date[pickup_date]=[]
+        pickup_by_date[pickup_date].append(pickup)
+    return render(request,"previous.html",{'pickup_by_date':pickup_by_date})

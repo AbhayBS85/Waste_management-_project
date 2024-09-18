@@ -19,4 +19,5 @@ urlpatterns=[
     path('add_staff/',views.newstaff,name='add_staff'),
     path('staff_management/',views.deletestaff,name='staff_management'),
     path('edit/',views.staffedit,name='edit'),
+    path('prev/',views.oldpickups,name='prev'),
 ]
