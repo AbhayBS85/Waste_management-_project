@@ -20,4 +20,6 @@ urlpatterns=[
     path('staff_management/',views.deletestaff,name='staff_management'),
     path('edit/',views.staffedit,name='edit'),
     path('prev/',views.oldpickups,name='prev'),
+    path('update-status/',views.update_status,name='update_status'),
+    path('stafflog/',views.staffsignin,name='stafflog'),
 ]

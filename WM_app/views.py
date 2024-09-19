@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render,redirect
 from django.db.models.functions import Cast
 from django.http import HttpResponse
@@ -242,7 +243,12 @@ def wastepickup(request):
     return render(request,"pickup.html",{'pickups':todays_pickups})
 
 def staffprofile(request):
-    return render(request,"staff.html")
+    staff_id=request.session.get('staff_id')
+    if staff_id:
+        staff=Staff.objects.get(id=staff_id)
+        return render(request,"staff.html",{'staff':staff})
+    else:
+        return redirect('stafflog')
 
 def newstaff(request):
     if request.method=='POST':
@@ -289,3 +295,30 @@ def oldpickups(request):
             pickup_by_date[pickup_date]=[]
         pickup_by_date[pickup_date].append(pickup)
     return render(request,"previous.html",{'pickup_by_date':pickup_by_date})
+
+def update_status(request):
+    if request.method=="POST" and request.is_ajax():
+        new_status=request.POST.get('status')
+        staff=get_object_or_404(Staff,id=request.user.id)
+        staff.status=new_status
+        staff.save()
+        return JsonResponse({"message":"Status updated successfully!"})
+    return JsonResponse({"message": "Invalid request"},status=400)
+
+
+def staffsignin(request):
+    if request.method=="POST":
+        username=request.POST.get("username")
+        password=request.POST.get("password")
+        try:
+            staff=Staff.objects.get(name=username)
+            if staff.password==password:
+                request.session['staff_id']=staff.id
+                return redirect('staff')
+            else:
+                # Incorrect password
+                messages.error(request,"Incorrect password")
+        except Staff.DoesNotExist:
+            # Username not found
+            messages.error(request, "Incorrect username")
+    return render(request,"stafflogin.html")

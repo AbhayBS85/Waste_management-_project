@@ -104,6 +104,20 @@
             font-size: 36px;
             margin-left: 50px;
         }
+        .status-toggle {
+            margin-top: 20px;
+            padding: 8px 8px 8px 32px;
+        }
+
+        .status-toggle label {
+            font-size: 18px;
+            color: #818181;
+        }
+
+        .status-toggle input[type="checkbox"] {
+            margin-left: 10px;
+            transform: scale(1.5);
+        }
     </style>
 </head>
 <body>
@@ -115,8 +129,12 @@
             <a href="{% url 'edit' %}">Edit Profile</a>
             <a href="{% url 'logout' %}">Logout</a>
             <a href="#services">Assistance</a>
+            <div class="status-toggle">
+                <label for="statusToggle">Engaged:</label>
+                <input type="checkbox" id="statusToggle" onchange="toggleStatus()" {% if staff.status == 'Engaged' %}checked{% endif %}>
+            </div>
         </div>
-        <div class="user-icon">&#128100; Staff Profile</div>
+        <div class="user-icon">&#128100; {{ staff.name }}</div>
     </header>
 
     <!-- Content Section -->
@@ -141,6 +159,22 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
+        }
+        function toggleStatus() {
+            const statusToggle=document.getElementById('statusToggle');
+            const newStatus=statusToggle.checked ? 'Engaged':'Free to pick';
+            const xhr=new XMLHttpRequest();
+            xhr.open('POST','{% url "update_status" %}',true); 
+            xhr.setRequestHeader('X-CSRFToken','{{ csrf_token }}'); 
+            xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xhr.onload=function() {
+                if (xhr.status === 200) {
+                    console.log('Status updated successfully!');
+                } else {
+                    console.log('Error updating status');
+                }
+            };
+            xhr.send('status='+newStatus);
         }
     </script>
 </body>
