@@ -498,6 +498,13 @@
     <div class="form-wrapper">
         <div class="form-container">
             <h2>New Staff Entry</h2>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <form id="staffForm" method="POST" action="{% url 'add_staff' %}">
                 {% csrf_token %}
                 <label for="name">Staff Name:</label>

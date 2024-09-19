@@ -450,6 +450,30 @@
             margin-right: 8px;
             font-size: 20px;
         }
+        .messages-container {
+            text-align: center;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .messages {
+            list-style-type: none;
+            padding: 10px;
+            background-color: #e0ffe0; /* Light green background for success */
+            border: 1px solid #00cc00;
+            color: #006600;
+            border-radius: 5px;
+        }
+
+        .messages .error {
+            background-color: #ffe0e0; /* Light red background for error */
+            border: 1px solid #cc0000;
+            color: #660000;
+        }
+
+        .messages li {
+            margin: 5px 0;
+        }
     </style>
 </head>
 
@@ -468,7 +492,6 @@
             </div>
         </div>
     </div>
-
     <div class="hero">
         <div class="container">
             <h1>Waste and Recycling<br>
@@ -476,6 +499,15 @@
                 For Your Home,Business,or city.
             </h1>
             <br>
+            <div class="messages-container">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -520,6 +552,19 @@
                 document.getElementById('popupContainer').style.display = 'none';
             }
         });
+        window.onload=function() {
+            const messageContainer=document.querySelector('.messages-container');
+            if (messageContainer) {
+                setTimeout(function() {
+                    // Add a class to fade out the message
+                    messageContainer.style.transition='opacity 1s';
+                    messageContainer.style.opacity='0';
+                    setTimeout(function() {
+                        messageContainer.style.display='none';
+                    }, 1000);  // Wait for the fade-out animation to complete (1s)
+                }, 3000); // 3 seconds delay before fade out
+            }
+        };
     </script>
 </body>
 </html>
