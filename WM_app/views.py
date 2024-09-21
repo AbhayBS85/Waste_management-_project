@@ -233,14 +233,19 @@ def payment(request):
 def admindashboard(request):
     return render(request,"admin_dashboard.html")
 
+
 def pickupassign(request):
     return render(request,"assign.html")
+
+
 
 def wastepickup(request):
     now=timezone.now() 
     start_of_day=now.replace(hour=0,minute=0,second=0,microsecond=0)
     todays_pickups=Pickup.objects.filter(date__gte=start_of_day,date__lte=now)
     return render(request,"pickup.html",{'pickups':todays_pickups})
+
+
 
 def staffprofile(request):
     staff_id=request.session.get('staff_id')
@@ -249,6 +254,8 @@ def staffprofile(request):
         return render(request,"staff.html",{'staff':staff})
     else:
         return redirect('stafflog')
+
+
 
 def newstaff(request):
     if request.method=='POST':
@@ -274,6 +281,7 @@ def deletestaff(request):
     staff_id=request.GET.get('id')
     if staff_id:
         Staff.objects.filter(id=staff_id).delete()
+        messages.success(request,"Staff data successfully deleted.")
         return redirect('staff_management')
     return render(request,"delete_staff.html",{'staff_list': staff_list})
 
@@ -295,6 +303,8 @@ def oldpickups(request):
             pickup_by_date[pickup_date]=[]
         pickup_by_date[pickup_date].append(pickup)
     return render(request,"previous.html",{'pickup_by_date':pickup_by_date})
+
+
 
 def update_status(request):
     if request.method=="POST" and request.is_ajax():

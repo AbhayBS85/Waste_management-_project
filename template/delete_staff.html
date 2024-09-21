@@ -78,11 +78,58 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
+        .messages-container {
+            text-align: center;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .messages {
+            list-style-type: none;
+            padding: 10px;
+            background-color: #e0ffe0; /* Light green background for success */
+            border: 1px solid #00cc00;
+            color: #006600;
+            border-radius: 5px;
+        }
+
+        .messages .error {
+            background-color: #ffe0e0; /* Light red background for error */
+            border: 1px solid #cc0000;
+            color: #660000;
+        }
+
+        .messages li {
+            margin: 5px 0;
+        }
+        .links {
+            margin-left: auto; /* Pushes the links to the right */
+            display: flex;
+            gap: 15px; /* Adds space between the two links */
+        }
+        .pickup-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pickup-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Remove Staff</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h2>Remove Staff</h2>
+            <div class="links">
+                <a href="{% url 'adm_dash' %}" class="pickup-link">Back to Dashboard</a>
+            </div>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -109,13 +156,22 @@
                 {% endfor %}
             </tbody>
         </table>
+        <div class="messages-container">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
     </div>
 
     <!-- Pop-up Container -->
     <div id="popup" class="popup">
         <div class="popup-content">
-            <p>Delete Staff?</p>
-            <button class="ok-btn" onclick="confirmDelete()">Ok</button>
+            <p>The staff data will be deleted from the database permenantly.<br>Do you want to continue?</p>
+            <button class="ok-btn" onclick="confirmDelete()">Yes</button>
             <button class="no-btn" onclick="cancelDelete()">No</button>
         </div>
     </div>
@@ -137,6 +193,20 @@
             // Redirect the user to the 'staff_management' page
             window.location.href = "{% url 'staff_management' %}";
         }
+        
+        window.onload = function() {
+            const messageContainer = document.querySelector('.messages-container');
+            if (messageContainer) {
+                setTimeout(function() {
+                    messageContainer.style.transition = 'opacity 1s';
+                    messageContainer.style.opacity = '0';
+                    setTimeout(function() {
+                        messageContainer.style.display = 'none';
+                    }, 1000); // Wait for fade-out animation to complete
+                }, 3000); // 3 seconds delay before fade-out
+            }
+        };
+
     </script>
 </body>
 </html>
