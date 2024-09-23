@@ -307,12 +307,19 @@ def oldpickups(request):
 
 
 def update_status(request):
-    if request.method=="POST" and request.is_ajax():
+    if request.method=="POST":
         new_status=request.POST.get('status')
-        staff=get_object_or_404(Staff,id=request.user.id)
-        staff.status=new_status
-        staff.save()
-        return JsonResponse({"message":"Status updated successfully!"})
+        staff_id= request.session.get('staff_id')
+        if staff_id:
+            staff=get_object_or_404(Staff,id=staff_id)
+            if new_status in ['Engaged','Free to pick']:
+                staff.status=new_status
+                staff.save()
+                return JsonResponse({"message":"Status updated successfully!"})
+            else:
+                return JsonResponse({"message":"Invalid status"},status=400)
+        else:
+            return JsonResponse({"message":"Staff not logged in"},status=403)
     return JsonResponse({"message": "Invalid request"},status=400)
 
 
@@ -332,3 +339,13 @@ def staffsignin(request):
             # Username not found
             messages.error(request, "Incorrect username")
     return render(request,"stafflogin.html")
+
+
+def staff_logout(request):
+    staff_id=request.session.get('staff_id')
+    if staff_id:
+        staff=get_object_or_404(Staff,id=staff_id)
+        staff.status='Offline'
+        staff.save()
+    logout(request)
+    return redirect('stafflog') 

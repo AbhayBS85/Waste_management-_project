@@ -22,4 +22,5 @@ urlpatterns=[
     path('prev/',views.oldpickups,name='prev'),
     path('update-status/',views.update_status,name='update_status'),
     path('stafflog/',views.staffsignin,name='stafflog'),
+    path('staff_out/',views.staff_logout,name='staff_out'),
 ]

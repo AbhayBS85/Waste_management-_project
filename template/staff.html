@@ -118,6 +118,102 @@
             margin-left: 10px;
             transform: scale(1.5);
         }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .popup {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none;  /* Initially hidden */
+            position: fixed;  /* For centering the popup */
+            z-index: 1000;
+        }
+
+        #popupOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);  /* Transparent dark background */
+            z-index: 999;  /* Slightly lower than popup so it's under the popup */
+            display: none;  /* Initially hidden */
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .popup {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ok-btn {
+            background-color: #2b752d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .no-btn{
+            background-color: #f50c0cef;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -127,15 +223,26 @@
         <div id="sidebar" class="sidebar">
             <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
             <a href="{% url 'edit' %}">Edit Profile</a>
-            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'staff_out' %}">Logout</a>
             <a href="#services">Assistance</a>
             <div class="status-toggle">
-                <label for="statusToggle">Engaged:</label>
-                <input type="checkbox" id="statusToggle" onchange="toggleStatus()" {% if staff.status == 'Engaged' %}checked{% endif %}>
+                <label id="statusLabel">{{ staff.status }}:</label>
+                <label class="switch">
+                    <input type="checkbox" id="statusToggle" onchange="confirmToggle()" {% if staff.status == 'Engaged' %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
             </div>
         </div>
         <div class="user-icon">&#128100; {{ staff.name }}</div>
     </header>
+    <div id="popupOverlay" style="display: none;"></div>
+    <div id="confirmationPopup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <p id="popupMessage"></p>
+            <button class="ok-btn" id="confirmYes">Yes</button>
+            <button class="no-btn" id="confirmNo">No</button>
+        </div>
+    </div>
 
     <!-- Content Section -->
     <div class="content">
@@ -160,22 +267,45 @@
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
-        function toggleStatus() {
+        function confirmToggle() {
             const statusToggle=document.getElementById('statusToggle');
-            const newStatus=statusToggle.checked ? 'Engaged':'Free to pick';
+            const isEngaged=statusToggle.checked;
+            const popupMessage=document.getElementById('popupMessage');
+            popupMessage.innerText=isEngaged
+                ? "Setting your status as 'Engaged'. Confirm?"
+                : "Setting your status as 'Free to pick'. Confirm?";
+
+            const popup=document.getElementById('confirmationPopup');
+            popup.style.display="block";
+
+            document.getElementById('confirmYes').onclick=function() {
+                updateStatus(isEngaged ? 'Engaged':'Free to pick');
+                popup.style.display="none";
+                document.getElementById('popupOverlay').style.display="none";
+            };
+
+            document.getElementById('confirmNo').onclick=function() {
+                statusToggle.checked=!isEngaged;  // Revert the toggle state
+                popup.style.display="none";
+                document.getElementById('popupOverlay').style.display="none";
+            };
+            document.getElementById('popupOverlay').style.display="block";
+        }
+        function updateStatus(newStatus) {
             const xhr=new XMLHttpRequest();
-            xhr.open('POST','{% url "update_status" %}',true); 
-            xhr.setRequestHeader('X-CSRFToken','{{ csrf_token }}'); 
+            xhr.open('POST','{% url "update_status" %}',true);
+            xhr.setRequestHeader('X-CSRFToken','{{ csrf_token }}');
             xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
             xhr.onload=function() {
-                if (xhr.status === 200) {
+                if (xhr.status===200) {
+                    document.getElementById('statusLabel').innerText=newStatus + ":";
                     console.log('Status updated successfully!');
                 } else {
                     console.log('Error updating status');
                 }
             };
-            xhr.send('status='+newStatus);
-        }
+            xhr.send('status=' + newStatus);
+        }  
     </script>
 </body>
 </html>
