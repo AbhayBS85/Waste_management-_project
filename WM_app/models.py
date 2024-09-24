@@ -97,3 +97,13 @@ class Staff(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.id}"
+    
+
+
+class CompletedPickup(models.Model):
+    Completed_Pickid=models.AutoField(primary_key=True)
+    Staff_name=models.CharField(max_length=255)
+    Staff_ID=models.IntegerField()
+
+    def __str__(self):
+        return f"{self.Completed_Pickid} - {self.Staff_name}"
