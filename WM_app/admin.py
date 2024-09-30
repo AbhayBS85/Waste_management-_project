@@ -9,4 +9,6 @@ admin.site.register(Hazardouswaste)
 admin.site.register(Pickup)
 admin.site.register(Handlers)
 admin.site.register(Staff)
+admin.site.register(Assigned)
+admin.site.register(CompletedPickup)
 

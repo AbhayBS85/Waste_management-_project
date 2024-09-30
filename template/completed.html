@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Pickups</title>
+    <style>
+        /* Basic styles for layout */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #4f4d4db5;
+            overflow: hidden; /* Prevents scrolling */
+        }
+
+        .header, .footer {
+            padding: 10px;
+            background-color: #f0f0f0;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .footer {
+            margin-top: auto;
+            border-top: 1px solid #37b60d;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .table-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #090909;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-right: 20px;
+            padding-left: 5px;
+        }
+
+        table, th, td {
+            border: 3px solid #151414;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .assign-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        @media (max-width: 600px) {
+            .table-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            table {
+                margin-bottom: 10px;
+            }
+        }
+        .links {
+            /* margin-left: auto; Pushes the links to the right */
+            padding-left: 1300px;
+            display: flex;
+            gap: 15px; /* Adds space between the two links */
+        }
+        .pickup-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pickup-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h2>Completed Pickups</h2>
+        <div class="title-container">
+            <div class="links">
+                <a href="{% url 'adm_dash' %}" class="pickup-link">Back to Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <div class="container">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pickup ID</th>
+                        <th>Customer</th>
+                        <th>Contact Number</th>
+                        <th>Waste Type</th>
+                        <th>Weight</th>
+                        <th>Location</th>
+                        <th>Payment Status</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pickup in completed_pickups %}
+                    <tr>
+                        <td>{{ pickup.pickup_id }}</td>
+                        <td>{{ pickup.customer }}</td>
+                        <td>{{ pickup.contact_number }}</td>
+                        <td>{{ pickup.waste_type }}</td>
+                        <td>{{ pickup.weight }}</td>
+                        <td>{{ pickup.location }}</td>
+                        <td>{{ pickup.payment_status }}</td>
+                        <td>{{ pickup.date }}</td>
+                        <td>{{ pickup.pickup_status }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No completed pickups yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -493,6 +493,14 @@
         </div>
     </div>
     <div class="hero">
+
+        <!-- {% if messages %}
+            <div id="message-container">
+                {% for message in messages %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %} -->
         <div class="container">
             <h1>Waste and Recycling<br>
                 <span style="color: green;">Solutions</span><br>
@@ -565,6 +573,10 @@
                 }, 3000); // 3 seconds delay before fade out
             }
         };
+      
+        setTimeout(function() {
+            document.getElementById('message-container').style.display = 'none';
+        }, 3000);  // 3000 milliseconds = 3 seconds
     </script>
 </body>
 </html>

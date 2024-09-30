@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Profile</title>
+    <style>
+        /* Basic styles for layout */
+        .form-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Slightly darken the background */
+            backdrop-filter: blur(10px); /* Apply blur effect */
+            z-index: 1; /* Layer behind the form container */
+        }
+
+        /* Centered form container */
+        .form-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            z-index: 2; /* Layer above the blur overlay */
+        }
+
+        /* Form field styling */
+        #assignForm label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        #assignForm input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .ok-btn {
+            background-color: #2b752d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .no-btn{
+            background-color: #f50c0cef;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-overlay"></div>
+    <div class="form-container">
+        <h2 style="padding-left: 60px;">Complete Pickup</h2><br>
+        <form id="assignForm" method="post" action="{% url 'finish_pickup' pickup.pickup_id %}">
+            {% csrf_token %}
+            <label for="pickup-id">Pickup ID:</label>
+            <input type="text" id="pickup_id" name="pickup_id" value="{{ pickup.pickup_id }}" readonly>
+        
+            <label for="staff-id">Staff ID:</label>
+            <input type="text" id="staff_id" name="staff_id"  required>
+        
+            <label for="name">Staff Name:</label>
+            <input type="text" id="staff_name" name="staff_name" required>
+        
+            <button type="submit" class="ok-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

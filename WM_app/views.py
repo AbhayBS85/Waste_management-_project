@@ -1,3 +1,4 @@
+from django.contrib.messages import constants as message_constants
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render,redirect
@@ -8,8 +9,10 @@ from django.contrib.auth import logout
 from django.db.models import DateField
 from django.contrib import messages
 from django.utils import timezone
+from django.urls import reverse
 from datetime import timedelta
 from.models import*
+
 
 
 # Create your views here.
@@ -59,7 +62,7 @@ def signuppage(request):
                 )
                 new_user.save()
 
-                messages.success(request, "Your account has been created successfully!")
+                messages.success(request, "Account created successfully!\n     Now please Re-Login")
                 return redirect('relog')  # Redirect to the success page after successful signup
 
         except Exception as e:
@@ -81,6 +84,7 @@ def loginpage(request):
             )
             if user:  # If a user is found
                 # Authentication successful, redirect to the desired page
+                request.session['username']=user.username
                 return redirect('logre')
             
         except UserData.DoesNotExist:
@@ -101,6 +105,7 @@ def biode(request):
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
+            payment_status=request.POST.get('payment_method')
         else:
             waste_weight=weight_option
             payment_status='Cash on Pickup'
@@ -114,6 +119,7 @@ def biode(request):
             address=address
         )
         biowaste.save()
+
         pickup=Pickup(
             customer=name,
             contact_number=phone,
@@ -126,13 +132,20 @@ def biode(request):
         pickup.save()
 
         if weight_option=='Check on pickup':
+            messages.success(request,'Pickup scheduled.Payment on pickup.')
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
-            return redirect('payment_page')
+            if payment_status=='Pay Online':
+                return redirect('payment_page')
+            else:
+                messages.success(request,'Pickup scheduled. Payment on pickup.')
+                return redirect('successpage')
     return render(request,'dergradable_form.html')
 
+
+
 def requiredindex(request):
-    username=request.user.username
+    username= request.session.get('username',request.user.username) 
     return render(request,'login_index.html',{'username': username})
 
 def relogin(request):
@@ -153,6 +166,7 @@ def nonbiowaste(request):
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
+            payment_status=request.POST.get('payment_method')
         else:
             waste_weight=weight_option
             payment_status='Cash on Pickup'
@@ -166,6 +180,7 @@ def nonbiowaste(request):
             address=address
         )
         non_biowaste.save()
+
         pickup=Pickup(
             customer=name,
             contact_number=phone,
@@ -178,9 +193,13 @@ def nonbiowaste(request):
         pickup.save()
 
         if weight_option=='Check on pickup':
+            messages.success(request,'Pickup scheduled. Payment on pickup.')
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
-            return redirect('payment_page')
+            if payment_status == 'Pay Online':
+                return redirect('payment_page')
+            else:
+                return redirect('successpage')
     return render(request,"nonbio.html")
 
 def hazwaste(request):
@@ -191,9 +210,11 @@ def hazwaste(request):
         weight_option=request.POST.get('u_weight_option')
         manual_weight=request.POST.get('u_manual_weight')
         address=request.POST.get('u_address')
+        payment_option=request.POST.get('payment_option')  
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
+            payment_status=payment_option
         else:
             waste_weight=weight_option
             payment_status='Cash on Pickup'
@@ -207,6 +228,7 @@ def hazwaste(request):
             address=address
         )
         hazardwaste.save()
+
         pickup=Pickup(
             customer=name,
             contact_number=phone,
@@ -221,7 +243,11 @@ def hazwaste(request):
         if weight_option=='Check on pickup':
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
-            return redirect('payment_page')
+            if payment_status=='Pay Online':
+                return redirect('payment_page')
+            else:
+                messages.success(request, 'Pickup scheduled. Payment on pickup.')
+                return redirect('successpage')
     return render(request,"hazardous.html")
 
 def success(request):
@@ -234,8 +260,9 @@ def admindashboard(request):
     return render(request,"admin_dashboard.html")
 
 
-def pickupassign(request):
-    return render(request,"assign.html")
+def pickupassign(request,pickup_id):
+    free_staff=Staff.objects.filter(status='Free to pick')
+    return render(request,"assign.html",{'staff':free_staff,'pickup_id':pickup_id})
 
 
 
@@ -249,9 +276,11 @@ def wastepickup(request):
 
 def staffprofile(request):
     staff_id=request.session.get('staff_id')
+    pickup_id=request.session.get('pickup_id')
     if staff_id:
         staff=Staff.objects.get(id=staff_id)
-        return render(request,"staff.html",{'staff':staff})
+        pickup=Pickup.objects.get(pickup_id=pickup_id) if pickup_id else None
+        return render(request,"staff.html",{'staff':staff,'pickup': pickup})
     else:
         return redirect('stafflog')
 
@@ -284,6 +313,8 @@ def deletestaff(request):
         messages.success(request,"Staff data successfully deleted.")
         return redirect('staff_management')
     return render(request,"delete_staff.html",{'staff_list': staff_list})
+
+
 
 def staffedit(request):
     return render(request,"staff_edit.html")
@@ -349,3 +380,125 @@ def staff_logout(request):
         staff.save()
     logout(request)
     return redirect('stafflog') 
+
+def assign_pickup_to_staff(request, pickup_id,staff_id):
+    staff=Staff.objects.get(id=staff_id)
+    pickup=Pickup.objects.get(pickup_id=pickup_id)
+
+    # Assign the pickup to the staff
+    staff.status='Engaged'
+    staff.save()
+
+    # Store pickup details in session for the staff dashboard
+    request.session['pickup_id']=pickup_id
+    messages.success(request,"Pickup assigned successfully!")
+
+    return redirect('adm_dash')  # Redirect to staff dashboard
+
+
+def confirm_assign(request,pickup_id):
+    pickup=Pickup.objects.get(pickup_id=pickup_id)
+    if request.method=='POST':
+        staff_id=request.POST.get('staff_id')
+        staff_name=request.POST.get('staff_name')
+    # Logic for confirming the pickup assignment
+        if staff_id and staff_name:
+            assigned,created=Assigned.objects.update_or_create(
+                staff_id=staff_id,
+                defaults={
+                    'staff_name': staff_name,
+                    'pickup_id': pickup_id
+                }
+            )
+            if created:
+                messages.success(request, 'Pickup assigned successfully.')
+            else:
+                messages.success(request, 'Pickup assignment updated successfully.')
+            return redirect('staff')
+        else:
+            messages.error(request, 'Please fill in all fields.')
+    # Any additional confirmation logic...
+    return render(request,"staff_confirm_assign.html",{'pickup': pickup})
+
+
+def finish_pickup(request, pickup_id):
+    pickup=get_object_or_404(Pickup,pickup_id=pickup_id)
+
+    if request.method=='POST':
+        staff_name=request.POST.get('staff_name')
+        staff_id=request.POST.get('staff_id')
+        staff=get_object_or_404(Staff,id=staff_id)
+
+        if staff_name and staff_id:
+            completed_pickup=CompletedPickup.objects.create(
+                Staff_name=staff_name,
+                Staff_ID=staff_id
+            )
+            completed_pickup.save()
+            staff.status='Free to pick'
+            staff.save()
+
+            pickup.pickup_status='Completed'
+            pickup.save()
+            messages.success(request,'Pickup completed successfully.')
+            return redirect('staff')
+        else:
+            messages.error(request,'Please fill in all fields.')
+    return render(request,'finish_pickup.html',{'pickup': pickup})
+
+
+def assigned_pickups(request):
+    today=timezone.now().date()
+    assigned_pickups_today=Assigned.objects.filter(assigned_at__date=today)
+    
+    context={
+        'assigned_pickups':assigned_pickups_today
+    }
+    return render(request,'assigned.html',context)
+
+
+def personal_pickup(request):
+    completed_pickups=CompletedPickup.objects.all().order_by('-Completed_Pickid') 
+    return render(request,"personal_pickup.html",{'completed_pickups':completed_pickups})
+
+
+def completed_pickups(request):
+    completed_pickup_ids=CompletedPickup.objects.values_list('Completed_Pickid',flat=True)
+    Pickup.objects.filter(pickup_id__in=completed_pickup_ids).update(pickup_status='Completed')
+    completed_pickups=Pickup.objects.filter(pickup_status='Completed').order_by('-date')
+    context = {
+        'completed_pickups': completed_pickups,
+    }
+    return render(request,"completed.html", context)
+
+
+def edituser(request):
+    if 'username' in request.session:
+        username=request.session['username']
+        try:
+            user_data=UserData.objects.get(username=username)
+        except UserData.DoesNotExist:
+            return redirect('log')
+        
+        if request.method=='POST':
+            new_email=request.POST.get('email')
+            new_phone_number=request.POST.get('phone_number')
+            new_address=request.POST.get('address')
+            
+            user_data.email=new_email
+            user_data.phone_number=new_phone_number
+            user_data.address=new_address
+            user_data.save()
+
+            messages.success(request, 'Your profile has been updated successfully!')
+            
+            return redirect('edit_user')
+        context = {
+            'username':user_data.username,
+            'email':user_data.email,
+            'phone_number':user_data.phone_number,
+            'address':user_data.address,
+        }
+        return render(request,'edit_user.html',context)
+    
+    

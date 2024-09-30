@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url(../static/image/cover1.jpg) no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            background-color: rgb(248, 246, 246); /* Light white transparent background */
+            backdrop-filter: blur(10px); /* Blur effect */
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(186, 182, 182, 0.1);
+            position: relative;
+        }
+
+        /* User Icon */
+        .user-icon {
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+            height: 100px;
+            border-radius: 13px;
+            background-color: rgb(249, 103, 35); /* Placeholder for user icon */
+        }
+
+        /* Editable fields */
+        .editable-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .editable-field input {
+            width: 70%;
+            padding: 5px;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* Edit icon */
+        .edit-icon {
+            cursor: pointer;
+        }
+
+        /* Save button */
+        #save-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: rgb(14, 14, 14);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Warning Popup */
+        .warning-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .warning-popup button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #f44336;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .success-message {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .links {
+            margin-left: auto; /* Pushes the links to the right */
+            display: flex;
+            gap: 15px; /* Adds space between the two links */
+        }
+        .pickup-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pickup-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .username {
+            margin-top: 10px; 
+            font-size: 18px; 
+            color: #333; 
+        }
+
+        .user-info {
+            text-align: center; /* Center the content horizontally */
+            margin-top: 20px; /* Optional, for spacing around the user info */
+        }
+    </style>
+</head>
+<body><br><br>
+    <div class="links">
+        <br><br>
+        <a href="{% url 'logre' %}" class="pickup-link">Back to Dashboard</a>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="user-profile">
+            <!-- User Icon -->
+            <div class="user-info">
+                <img src="{% static 'image/user.png' %}" alt="User Icon" class="user-icon">
+
+                <!-- Display Username -->
+                <h3 class="username">{{ username }}</h3>
+            </div>
+
+            <!-- Editable Fields -->
+             <br>
+            <form method="POST" action="{% url 'edit_user' %}">
+                {% csrf_token %}
+
+                <div class="editable-field">
+                    <p>Email: {{ email }}</p>
+                    <span class="edit-icon" onclick="editField('email')">✎</span>
+                    <input type="email" id="email" name="email" value="{{ email }}" style="display:none">
+                </div>
+
+                <div class="editable-field">
+                    <p>Phone Number: {{ phone_number }}</p>
+                    <span class="edit-icon" onclick="editField('phone_number')">✎</span>
+                    <input type="text" id="phone_number" name="phone_number" value="{{ phone_number }}" style="display:none">
+                </div>
+
+                <div class="editable-field">
+                    <p>Address: {{ address }}</p>
+                    <span class="edit-icon" onclick="editField('address')">✎</span>
+                    <input type="text" id="address" name="address" value="{{ address }}" style="display:none">
+                </div>
+
+                <!-- Save Button (Initially Hidden) -->
+                <button type="submit" id="save-btn" style="display:none;"  onclick="saveChanges()">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Warning Popup (Hidden by Default) -->
+    <div class="warning-popup" id="warning-popup" style="display:none;">
+        <p>You are leaving the page without saving the data. Do you want to continue?</p>
+        <button onclick="discardChanges()">Yes</button>
+        <button onclick="stayOnPage()">No</button>
+    </div>
+
+    <div id="success-message">Changes saved successfully!</div>
+
+    <script>
+        let isEdited=false;
+
+        function editField(field) {
+            const input=document.getElementById(field);
+            const paragraph=input.previousElementSibling;
+
+            paragraph.style.display='none';
+            input.style.display='block';
+            input.focus();
+            showSaveButton();
+        }
+
+        function showSaveButton() {
+            document.getElementById('save-btn').style.display='block';
+            isEdited=true;
+        }
+        
+        function saveChanges() {
+            isEdited=false; 
+        }
+
+
+        function stayOnPage() {
+            document.getElementById('warning-popup').style.display = 'none';
+        }
+
+        
+        window.addEventListener('beforeunload', function (e) {
+            if (isEdited) {
+                e.preventDefault(); 
+                e.returnValue=''; 
+            }
+        });
+
+        window.onload=function() {
+            const successMessage=document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(function() {
+                    successMessage.style.opacity='0'; 
+                }, 3000); 
+
+                setTimeout(function() {
+                    successMessage.style.display='none'; 
+                }, 3500);
+            }
+        };
+    </script>
+</body>
+</html>

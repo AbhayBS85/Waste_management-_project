@@ -1,4 +1,5 @@
 from multiselectfield import MultiSelectField
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db import models
 
@@ -107,3 +108,13 @@ class CompletedPickup(models.Model):
 
     def __str__(self):
         return f"{self.Completed_Pickid} - {self.Staff_name}"
+    
+
+class Assigned(models.Model):
+    staff_id=models.IntegerField(primary_key=True)
+    staff_name=models.CharField(max_length=255)
+    pickup_id=models.IntegerField()
+    assigned_at=models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Pickup {self.pickup_id} assigned to {self.staff_name}"

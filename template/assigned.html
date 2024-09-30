@@ -83,41 +83,36 @@
 <body>
     <!-- Header Section -->
     <header class="header">
-        <h1>Header</h1>
+        <h1>Assigned Pickups for Today</h1>
     </header>
 
     <!-- Main Container Section -->
     <div class="container">
         <div class="table-container">
-            <!-- Table for Staff Details -->
             <table>
                 <thead>
                     <tr>
+                        <th>Pickup ID</th>
                         <th>Staff ID</th>
                         <th>Staff Name</th>
-                        <th>Staff Number</th>
-                        <th>Select</th>
+                        <th>Assigned At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for staff in staff %}
+                    {% for assigned in assigned_pickups %}
                         <tr>
-                            <td>{{ staff.id }}</td>
-                            <td>{{ staff.name }}</td>
-                            <td>{{ staff.phone_number }}</td>
-                            <td>
-                                <a href="{% url 'assign_pickup_to_staff' pickup_id staff.id %}">
-                                    <button class="assign-btn">Select</button>
-                                </a>
-                            </td>
+                            <td>{{ assigned.pickup_id }}</td>
+                            <td>{{ assigned.staff_id }}</td>
+                            <td>{{ assigned.staff_name }}</td>
+                            <td>{{ assigned.assigned_at }}</td>
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="3">No free staff available.</td>
+                            <td colspan="4">No pickups assigned today</td>
                         </tr>
                     {% endfor %}
                 </tbody>
-            </table>
+            </table> 
         </div>
     </div>
 

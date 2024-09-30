@@ -138,7 +138,7 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form action="login" method="POST">
+    <form action="{% url 'log' %}" method="POST">
         {% csrf_token %}
 
         {% if messages %}

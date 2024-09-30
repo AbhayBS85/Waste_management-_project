@@ -4,9 +4,9 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Page</title>
+    <title>Today's Pickups</title>
     <style>
-        /* Basic reset and styling */
+        /* Basic styles for layout */
         body {
             margin: 0;
             padding: 0;
@@ -14,7 +14,7 @@
             flex-direction: column;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #4f4d4db5;
             overflow: hidden; /* Prevents scrolling */
         }
 
@@ -27,7 +27,7 @@
 
         .footer {
             margin-top: auto;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid #37b60d;
         }
 
         .container {
@@ -41,7 +41,7 @@
             display: flex;
             align-items: center;
             background-color: #fff;
-            border: 1px solid #ddd;
+            border: 1px solid #090909;
             border-radius: 8px;
             padding: 20px;
         }
@@ -49,10 +49,11 @@
         table {
             border-collapse: collapse;
             margin-right: 20px;
+            padding-left: 5px;
         }
 
         table, th, td {
-            border: 1px solid #ddd;
+            border: 3px solid #151414;
             padding: 10px;
             text-align: left;
         }
@@ -78,52 +79,63 @@
                 margin-bottom: 10px;
             }
         }
+        .links {
+            /* margin-left: auto; Pushes the links to the right */
+            padding-left: 1300px;
+            display: flex;
+            gap: 15px; /* Adds space between the two links */
+        }
+        .pickup-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pickup-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
-        <h1>Header</h1>
+        <h2>Pickup History</h2>
+        <div class="title-container">
+            <div class="links">
+                <a href="{% url 'staff' %}" class="pickup-link">Back To Dashboard</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Main Container Section -->
-    <div class="container">
-        <div class="table-container">
-            <!-- Table for Staff Details -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Staff ID</th>
-                        <th>Staff Name</th>
-                        <th>Staff Number</th>
-                        <th>Select</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for staff in staff %}
+    <!-- Content Section -->
+        <div class="container">
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td>{{ staff.id }}</td>
-                            <td>{{ staff.name }}</td>
-                            <td>{{ staff.phone_number }}</td>
-                            <td>
-                                <a href="{% url 'assign_pickup_to_staff' pickup_id staff.id %}">
-                                    <button class="assign-btn">Select</button>
-                                </a>
-                            </td>
+                            <th>Pickup ID</th>
+                            <th>Staff Name</th>
+                            <th>Staff ID</th>
                         </tr>
-                    {% empty %}
+                    </thead>
+                    <tbody>
+                        {% for pickup in completed_pickups %}
                         <tr>
-                            <td colspan="3">No free staff available.</td>
+                            <td>{{ pickup.Completed_Pickid }}</td>
+                            <td>{{ pickup.Staff_name }}</td>
+                            <td>{{ pickup.Staff_ID }}</td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3">No completed pickups yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-
-    <!-- Footer Section -->
-    <footer class="footer">
-        <p>Footer</p>
-    </footer>
 </body>
 </html>
