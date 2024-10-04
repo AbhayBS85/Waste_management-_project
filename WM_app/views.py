@@ -269,7 +269,7 @@ def pickupassign(request,pickup_id):
 def wastepickup(request):
     now=timezone.now() 
     start_of_day=now.replace(hour=0,minute=0,second=0,microsecond=0)
-    todays_pickups=Pickup.objects.filter(date__gte=start_of_day,date__lte=now)
+    todays_pickups=Pickup.objects.filter(date__gte=start_of_day,date__lte=now, pickup_status='Pending')
     return render(request,"pickup.html",{'pickups':todays_pickups})
 
 
@@ -407,9 +407,12 @@ def confirm_assign(request,pickup_id):
                 staff_id=staff_id,
                 defaults={
                     'staff_name': staff_name,
-                    'pickup_id': pickup_id
+                    'pickup_id': pickup_id,
+                    'assigned_at':timezone.now(),
                 }
             )
+            pickup.pickup_status = 'Assigned'
+            pickup.save()
             if created:
                 messages.success(request, 'Pickup assigned successfully.')
             else:
@@ -449,8 +452,7 @@ def finish_pickup(request, pickup_id):
 
 def assigned_pickups(request):
     today=timezone.now().date()
-    assigned_pickups_today=Assigned.objects.filter(assigned_at__date=today)
-    
+    assigned_pickups_today=Assigned.objects.filter(assigned_at__date=today).order_by('-assigned_at')
     context={
         'assigned_pickups':assigned_pickups_today
     }

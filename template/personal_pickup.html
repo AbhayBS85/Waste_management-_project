@@ -111,31 +111,31 @@
     </header>
 
     <!-- Content Section -->
-        <div class="container">
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Pickup ID</th>
-                            <th>Staff Name</th>
-                            <th>Staff ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for pickup in completed_pickups %}
-                        <tr>
-                            <td>{{ pickup.Completed_Pickid }}</td>
-                            <td>{{ pickup.Staff_name }}</td>
-                            <td>{{ pickup.Staff_ID }}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="3">No completed pickups yet.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="container">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pickup ID</th>
+                        <th>Staff Name</th>
+                        <th>Staff ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pickup in completed_pickups %}
+                    <tr>
+                        <td>{{ pickup.Completed_Pickid }}</td>
+                        <td>{{ pickup.Staff_name }}</td>
+                        <td>{{ pickup.Staff_ID }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No completed pickups yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+    </div>
 </body>
 </html>
