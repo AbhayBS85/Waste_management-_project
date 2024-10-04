@@ -32,7 +32,7 @@ def signuppage(request):
         try:
             # Check if the username already exists
             if UserData.objects.filter(username=username).exists():
-                messages.error(request, "Username already exists. Try another one.")
+                messages.error(request,"Username already exists. Try another one.")
                 return redirect('signup')
 
             # Check if the email already exists

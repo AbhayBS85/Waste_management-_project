@@ -16,6 +16,8 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             overflow: hidden; /* Prevents scrolling */
+            background: url(../static/image/cover1.jpg) no-repeat;
+            background-size: cover;
         }
 
         .header, .footer {
@@ -78,12 +80,36 @@
                 margin-bottom: 10px;
             }
         }
+
+        .links {
+            /* margin-left: auto; Pushes the links to the right */
+            padding-left: 1300px;
+            display: flex;
+            gap: 15px; /* Adds space between the two links */
+        }
+        .pickup-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .pickup-link:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header class="header">
         <h1>Assigned Pickups for Today</h1>
+        <div class="title-container"></div>
+            <div class="links">
+                <a href="{% url 'staff' %}" class="pickup-link">Back To Dashboard</a>
+            </div>
+        </div>
     </header>
 
     <!-- Main Container Section -->
@@ -115,10 +141,5 @@
             </table> 
         </div>
     </div>
-
-    <!-- Footer Section -->
-    <footer class="footer">
-        <p>Footer</p>
-    </footer>
 </body>
 </html>
