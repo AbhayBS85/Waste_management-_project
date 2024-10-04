@@ -103,11 +103,12 @@ class Staff(models.Model):
 
 class CompletedPickup(models.Model):
     Completed_Pickid=models.AutoField(primary_key=True)
+    Pickup_ID=models.IntegerField(null=True,blank=True)
     Staff_name=models.CharField(max_length=255)
     Staff_ID=models.IntegerField()
 
     def __str__(self):
-        return f"{self.Completed_Pickid} - {self.Staff_name}"
+        return f"{self.Pickup_ID} - {self.Staff_name}"
     
 
 class Assigned(models.Model):

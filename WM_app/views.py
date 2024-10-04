@@ -434,6 +434,7 @@ def finish_pickup(request, pickup_id):
 
         if staff_name and staff_id:
             completed_pickup=CompletedPickup.objects.create(
+                Pickup_ID=pickup.pickup_id,
                 Staff_name=staff_name,
                 Staff_ID=staff_id
             )
