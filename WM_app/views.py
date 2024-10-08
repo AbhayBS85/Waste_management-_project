@@ -6,11 +6,13 @@ from django.db.models.functions import Cast
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 from django.db.models import DateField
 from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse
 from datetime import timedelta
+import razorpay
 from.models import*
 
 
@@ -105,9 +107,11 @@ def biode(request):
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
+            total_amount=int(manual_weight)*30
             payment_status=request.POST.get('payment_method')
         else:
             waste_weight=weight_option
+            total_amount=0
             payment_status='Cash on Pickup'
 
         biowaste=Biowaste(
@@ -136,7 +140,8 @@ def biode(request):
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
             if payment_status=='Pay Online':
-                return redirect('payment_page')
+                # return redirect('payment_page',{'amount':total_amount})
+                return HttpResponseRedirect(f"{reverse('payment_page')}?amount={total_amount}")
             else:
                 messages.success(request,'Pickup scheduled. Payment on pickup.')
                 return redirect('successpage')
@@ -166,9 +171,11 @@ def nonbiowaste(request):
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
+            total_amount=int(manual_weight)*30
             payment_status=request.POST.get('payment_method')
         else:
             waste_weight=weight_option
+            total_amount=0
             payment_status='Cash on Pickup'
 
         non_biowaste=NonBiowaste(
@@ -196,8 +203,8 @@ def nonbiowaste(request):
             messages.success(request,'Pickup scheduled. Payment on pickup.')
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
-            if payment_status == 'Pay Online':
-                return redirect('payment_page')
+            if payment_status=='Pay Online':
+                return HttpResponseRedirect(f"{reverse('payment_page')}?amount={total_amount}")
             else:
                 return redirect('successpage')
     return render(request,"nonbio.html")
@@ -210,13 +217,16 @@ def hazwaste(request):
         weight_option=request.POST.get('u_weight_option')
         manual_weight=request.POST.get('u_manual_weight')
         address=request.POST.get('u_address')
-        payment_option=request.POST.get('payment_option')  
+        print(f"Weight Option: {weight_option}, Manual Weight: {manual_weight}, Payment Status: {request.POST.get('payment_method')}")
 
         if weight_option=='Enter the weight manually' and manual_weight:
             waste_weight=manual_weight
-            payment_status=payment_option
+            total_amount=int(manual_weight)*30
+            payment_status=request.POST.get('payment_method')
+            print(f"Payment Status Retrieved: {payment_status}")
         else:
             waste_weight=weight_option
+            total_amount=0
             payment_status='Cash on Pickup'
 
         hazardwaste=Hazardouswaste(
@@ -228,6 +238,10 @@ def hazwaste(request):
             address=address
         )
         hazardwaste.save()
+        print("Weight Option: ", weight_option)
+        print("Manual Weight: ", manual_weight)
+        print("Payment Status: ", payment_status)
+        print("Total Amount: ", total_amount)
 
         pickup=Pickup(
             customer=name,
@@ -239,14 +253,18 @@ def hazwaste(request):
             date=timezone.now()
         )
         pickup.save()
+        print(f"Payment Status Before Check: {payment_status}, Total Amount: {total_amount}")
 
         if weight_option=='Check on pickup':
+            messages.success(request,'Pickup scheduled. Payment on pickup.')
             return redirect('successpage')
         elif weight_option=='Enter the weight manually' and manual_weight:
-            if payment_status=='Pay Online':
-                return redirect('payment_page')
+            print("Proceeding with manual weight and payment")
+            if payment_status=='Pay online':
+                print(f"Redirecting to payment page with amount: {total_amount}")
+                return HttpResponseRedirect(f"{reverse('payment_page')}?amount={total_amount}")
             else:
-                messages.success(request, 'Pickup scheduled. Payment on pickup.')
+                messages.success(request,'Pickup scheduled. Payment on pickup.')
                 return redirect('successpage')
     return render(request,"hazardous.html")
 
@@ -254,7 +272,16 @@ def success(request):
     return render(request,"success.html")
 
 def payment(request):
-    return render(request,"paymentpage.html")
+    if 'amount' in request.GET:
+        amount=int(request.GET.get('amount'))*100 
+        order_currency='INR'
+        client=razorpay.Client(
+            auth=("rzp_test_SROSnyInFv81S4", "WIWYANkTTLg7iGbFgEbwj4BM"))
+    return render(request,"paymentpage.html",{'r':amount})
+
+
+def successpayment(request):
+    return render(request,"payment_confirm.html")
 
 def admindashboard(request):
     return render(request,"admin_dashboard.html")

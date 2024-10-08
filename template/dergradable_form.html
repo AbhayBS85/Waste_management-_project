@@ -207,6 +207,7 @@
                     <option value="Pay Online">Pay Online</option>
                 </select>
             </div>
+            <div id="amount-display"></div>
             <button type="submit" class="submit-btn">Finish</button>
         </form> 
     </div>
@@ -232,6 +233,18 @@
                 manualWeightGroup.style.display = "block";
             } else {
                 manualWeightGroup.style.display = "none";
+            }
+        }
+        function calculateAmount() {
+            var manualWeight=document.getElementById('manual_weight').value;
+            var amountPerKg=30; 
+            var totalAmount=manualWeight * amountPerKg;
+
+            var amountDisplay=document.getElementById('amount-display');
+            if (manualWeight) {
+                amountDisplay.innerHTML=`Amount per kg is 30 rupees. Your total amount is ${totalAmount} rupees.`;
+            } else {
+                amountDisplay.innerHTML='';
             }
         }
     </script>

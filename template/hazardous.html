@@ -197,8 +197,8 @@
                 <textarea id="address" name="u_address" rows="4" required></textarea>
             </div>
             <div class="form-group" id="payment-group">
-                <label for="payment">Choose a Payment Option *</label>
-                <select id="payment" name="payment_option" required>
+                <label for="payment_method">Choose a Payment Option *</label>
+                <select id="payment_method" name="payment_method" required>
                     <option value="">-- select --</option>
                     <option value="Cash on pickup">Cash on Pickup</option>
                     <option value="Pay online">Pay Online</option>
@@ -229,6 +229,19 @@
                 manualWeightGroup.style.display = "block";
             } else {
                 manualWeightGroup.style.display = "none";
+            }
+        }
+
+        function calculateAmount() {
+            var manualWeight=document.getElementById('manual_weight').value;
+            var amountPerKg=30; 
+            var totalAmount=manualWeight * amountPerKg;
+
+            var amountDisplay=document.getElementById('amount-display');
+            if (manualWeight) {
+                amountDisplay.innerHTML=`Amount per kg is 30 rupees. Your total amount is ${totalAmount} rupees.`;
+            } else {
+                amountDisplay.innerHTML='';
             }
         }
     </script>
