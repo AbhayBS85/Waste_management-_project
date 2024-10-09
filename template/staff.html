@@ -308,7 +308,7 @@
         <div class="menu-btn" onclick="toggleSidebar()">&#9776; Menu</div>
         <div id="sidebar" class="sidebar">
             <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
-            <a href="{% url 'edit' %}">Edit Profile</a>
+            <!-- <a href="{% url 'edit' %}">Edit Profile</a> -->
             <a href="{% url 'staff_out' %}">Logout</a>
             <a href="{% url 'personal_pickup' %}">Pickup History</a>
             <div class="status-toggle">
@@ -319,7 +319,7 @@
                 </label>
             </div>
         </div>
-        <div class="user-icon">&#128100; {{ staff.name }}</div>
+        <div class="user-icon">&#128100; {{ staff.name }}  <br> Staff ID:{{staff.id}}</div>
     </header>
     <div id="popupOverlay" style="display: none;"></div>
     <div id="confirmationPopup" class="popup" style="display: none;">
