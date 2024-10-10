@@ -31,4 +31,6 @@ urlpatterns=[
     path('completed/',views.completed_pickups,name='completed'),
     path('edit_user/',views.edituser,name='edit_user'),
     path('payment_success',views.successpayment,name='payment_success'),
+    path('staff_list/',views.staff_list,name='staff_list'),
+    path('edit_staff/<int:staff_id>/',views.edit_staff,name='edit_staff'),
 ]

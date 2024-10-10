@@ -1,0 +1,43 @@
+<!-- feedback_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback List</title>
+    <style>
+        .feedback-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .feedback-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .feedback-message {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer Feedbacks</h1>
+    {% for feedback in feedbacks %}
+        <div class="feedback-container">
+            <div class="feedback-header">
+                Message ID: {{ feedback.message_id }} <br>
+                Customer Name: {{ feedback.cust_name }} <br>
+                Customer Email: {{ feedback.cust_mail }}
+            </div>
+            <div class="feedback-message">
+                Message: {{ feedback.cust_message }}
+            </div>
+        </div>
+    {% empty %}
+        <p>No feedback available at the moment.</p>
+    {% endfor %}
+</body>
+</html>

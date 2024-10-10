@@ -501,7 +501,15 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card">
-                        <form action="#" method="post" class="formcont">
+                        <form action="" method="post" class="formcont">
+                            {% csrf_token %}
+                            {% if messages %}
+                                <div>
+                                    {% for message in messages %}
+                                        <div class="alert alert-success">{{ message }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name" required>
                             </div>

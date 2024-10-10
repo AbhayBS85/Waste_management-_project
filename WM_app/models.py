@@ -119,3 +119,13 @@ class Assigned(models.Model):
 
     def __str__(self):
         return f"Pickup {self.pickup_id} assigned to {self.staff_name}"
+    
+
+class Feedbacks(models.Model):
+    message_id=models.AutoField(primary_key=True)
+    cust_name=models.CharField(max_length=75)
+    cust_mail=models.EmailField()
+    cust_message=models.CharField(max_length=1000)
+
+    def __str__(self):
+        return f"{self.message_id} - {self.cust_name}"

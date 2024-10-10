@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.utils import timezone
 from django.urls import reverse
 from datetime import timedelta
+from .forms import StaffForm 
 import razorpay
 from.models import*
 
@@ -532,3 +533,22 @@ def edituser(request):
         return render(request,'edit_user.html',context)
     
     
+
+def staff_list(request):
+    staff_members=Staff.objects.all()
+    return render(request,'staff_list.html',{'staff_members': staff_members})
+
+
+def edit_staff(request,staff_id):
+    staff_member=get_object_or_404(Staff, id=staff_id)
+
+    if request.method=='POST':
+        form=StaffForm(request.POST,instance=staff_member)
+        if form.is_valid():
+            form.save()
+            return redirect('staff_list')  # Redirect to the staff list page after saving
+    else:
+        form = StaffForm(instance=staff_member)
+
+    return render(request,'edit_staff.html',{'form':form,'staff_member':staff_member})
+
