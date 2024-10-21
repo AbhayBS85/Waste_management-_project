@@ -27,6 +27,8 @@ The **Online Waste Management System** is a Django-based web application that al
 - **Profile Management:** Users can update personal information like phone number and email, but the username remains uneditable after account creation.
 - **Payment Options:** Users can choose between online payment (integrated via Razorpay) or payment upon pickup.
 
+  ![payment gateway](https://github.com/AbhayBS85/Waste_management-_project/blob/61e1603646ef0f1a6ed51b04e058a707a2141f4c/screenshots/payment_gateway.jpg)
+
 ### 2. Admin (Site Handlers) Module
 - **Pickup Management:** Admins can view all scheduled pickups and manage them efficiently. Each pickup request is assigned a unique ID and is displayed in reverse chronological order (most recent first).
 - **Assign Staff:** Admins can assign available staff to handle pickups. Available staff are displayed in a table format, and the admin can select the staff member for each task.
