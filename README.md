@@ -46,6 +46,8 @@ The **Online Waste Management System** is a Django-based web application that al
 
 ### 3. Waste Pickup Staff Module
 - **Pickup Assignment:** Staff members can confirm and accept pickups assigned by the admin.
+
+  ![staff pickup](https://github.com/AbhayBS85/Waste_management-_project/blob/2a9439155ce8f1b8152fab0cfb546dbff28fd3f1/screenshots/staff_pickup.jpg)
 - **Complete Pickup:** After finishing the pickup task, staff members can mark the task as completed.
 - **Pickup History:** Each staff member has a personal dashboard where they can view the history of their completed pickups.
 - **Update Availability Status:** Staff members can update their status to indicate whether they are:
