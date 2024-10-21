@@ -54,6 +54,8 @@ The **Online Waste Management System** is a Django-based web application that al
   - **"Free to Pick":** Available to accept new pickups.
   - **"Busy":** Not available for new pickups until current tasks are completed.
 
+    ![staff status](https://github.com/AbhayBS85/Waste_management-_project/blob/caabd2146e9a86ed4d4981f91593fd91ddbfb64f/screenshots/staff_status.jpg)
+
 
 
 
