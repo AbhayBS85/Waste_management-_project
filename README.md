@@ -31,6 +31,8 @@ The **Online Waste Management System** is a Django-based web application that al
 
 ### 2. Admin (Site Handlers) Module
 - **Pickup Management:** Admins can view all scheduled pickups and manage them efficiently. Each pickup request is assigned a unique ID and is displayed in reverse chronological order (most recent first).
+
+  ![pickup view](https://github.com/AbhayBS85/Waste_management-_project/blob/09cd03d4bb7c5cce50a0f2b3a6dc5adc98189902/screenshots/latest_pickup.jpg)
 - **Assign Staff:** Admins can assign available staff to handle pickups. Available staff are displayed in a table format, and the admin can select the staff member for each task.
 - **Staff Management:** Admins can:
   - Add new staff members
