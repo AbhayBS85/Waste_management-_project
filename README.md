@@ -14,6 +14,7 @@ The **Online Waste Management System** is a Django-based web application that al
 
 ### 1. User Module
 - **User Dashboard:** Each user has a personal dashboard after account creation.
+  - screenshots/homepage.jpg
 - **Waste Donation:** Users can donate waste by categorizing it into:
   - Bio-degradable waste
   - Non-bio-degradable waste
