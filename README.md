@@ -1,0 +1,90 @@
+# Online Waste Management System
+
+## Description
+The **Online Waste Management System** is a Django-based web application that allows users to manage and schedule waste pickups in an organized and efficient way. The system comprises three main modules: User, Admin (Site Handlers), and Waste Pickup Staff, each with distinct features. The project aims to streamline waste management by offering users the ability to categorize their waste and schedule pickups, while allowing admins and staff to manage and track waste collection.
+
+## Technologies Used
+- **Language:** Python
+- **Framework:** Django
+- **Database:** MySQL
+- **Front-end:** HTML, CSS, JavaScript
+- **Payment Gateway:** Razorpay
+
+## Modules
+
+### 1. User Module
+- **User Dashboard:** Each user has a personal dashboard after account creation.
+- **Waste Donation:** Users can donate waste by categorizing it into:
+  - Bio-degradable waste
+  - Non-bio-degradable waste
+  - Hazardous waste
+- **Waste Pickup Scheduling:** Users can schedule a pickup and select the type of waste they are donating.
+- **Profile Management:** Users can update personal information like phone number and email, but the username remains uneditable after account creation.
+- **Payment Options:** Users can choose between online payment (integrated via Razorpay) or payment upon pickup.
+
+### 2. Admin (Site Handlers) Module
+- **Pickup Management:** Admins can view all scheduled pickups and manage them efficiently. Each pickup request is assigned a unique ID and is displayed in reverse chronological order (most recent first).
+- **Assign Staff:** Admins can assign available staff to handle pickups. Available staff are displayed in a table format, and the admin can select the staff member for each task.
+- **Staff Management:** Admins can:
+  - Add new staff members
+  - Edit existing staff details
+  - Delete staff members
+- **Pickup Tracking:** Admins can monitor pickups, divided into two categories:
+  - **Assigned Pickups:** Tasks that have been assigned to staff.
+  - **Finished Pickups:** Tasks completed by staff.
+
+### 3. Waste Pickup Staff Module
+- **Pickup Assignment:** Staff members can confirm and accept pickups assigned by the admin.
+- **Complete Pickup:** After finishing the pickup task, staff members can mark the task as completed.
+- **Pickup History:** Each staff member has a personal dashboard where they can view the history of their completed pickups.
+- **Update Availability Status:** Staff members can update their status to indicate whether they are:
+  - **"Free to Pick":** Available to accept new pickups.
+  - **"Busy":** Not available for new pickups until current tasks are completed.
+
+
+
+
+### Features:
+
+  - **User Features:**
+    - Waste donation and categorization
+    - Pickup scheduling
+    - Personal profile management
+    - Payment integration (Razorpay)
+    
+  - **Admin Features:**
+    - View and manage scheduled pickups
+    - Assign staff to pickups
+    - Add, edit, and delete staff details
+    
+  - **Staff Features:**
+    - Update the status   
+    - Confirm and accept assigned pickups
+    - Complete pickup tasks
+    - View personal pickup history
+
+
+    
+### Payment Integration:
+  - The system uses Razorpay for online payment processing. Users can pay online when scheduling a waste pickup or choose to pay in cash upon pickup.
+
+### How it Works
+
+  - **User Workflow:**
+    - Sign up and log in.
+    - Choose the type of waste and schedule a pickup.
+    - Select the preferred payment option.
+    - Manage personal details from the dashboard.
+    
+  - **Admin Workflow:**
+    - View new pickup requests.
+    - Assign available staff to handle pickups.
+    - Manage staff details (add, edit, delete).
+  
+  - **Staff Workflow:**
+    - Confirm the pickup assignment.
+    - Mark the pickup as completed after collecting the waste.
+    - Review the history of pickups.
+
+
+
