@@ -22,6 +22,8 @@ The **Online Waste Management System** is a Django-based web application that al
  
     ![waste category](https://github.com/AbhayBS85/Waste_management-_project/blob/2befb41d48645c283b43f13f872d586c7aa562e8/screenshots/waste_category.jpg)
 - **Waste Pickup Scheduling:** Users can schedule a pickup and select the type of waste they are donating.
+
+  ![pickup scheduling](https://github.com/AbhayBS85/Waste_management-_project/blob/c9f0234148f37bf189fe48eeb989e073c08c3ef2/screenshots/scheduling_pickup.jpg)
 - **Profile Management:** Users can update personal information like phone number and email, but the username remains uneditable after account creation.
 - **Payment Options:** Users can choose between online payment (integrated via Razorpay) or payment upon pickup.
 
